@@ -167,36 +167,67 @@ document.addEventListener('click',event=>{
 render();
 
 
-// Medal movement in the approved iPhone preview.
-// One smooth, damped swing per gesture; never restart it on every scroll frame.
-let medalTouchStart=null,medalSwipeTriggered=false;
-function animateMedalRail(rail,direction=1){
- if(!rail||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
- rail.querySelectorAll(".case-tile .specimen").forEach((medal,i)=>{
-   medal.classList.remove("medal-sway-active");
-   void medal.offsetWidth;
-   medal.style.setProperty("--medal-direction",String(direction));
-   medal.style.animationDelay=(i%4*65)+"ms";
-   medal.classList.add("medal-sway-active");
+// Hanging medals respond to every horizontal swipe, arrow navigation and tap.
+// The shelf may contain only three earned medals, so touch gestures must work
+// even when there is no horizontal scrollable overflow.
+const medalMotionReduced=window.matchMedia("(prefers-reduced-motion: reduce)");
+let medalGesture=null;
+function swingApprovedMedals(rail,direction=1,onlyMedal=null){
+ if(!rail||medalMotionReduced.matches)return;
+ const medals=onlyMedal?[onlyMedal]:[...rail.querySelectorAll(".case-tile .specimen")];
+ medals.forEach((medal,i)=>{
+   // Web Animations API gives each gesture a fresh, self-contained animation.
+   // No persistent CSS class, no restart loop during inertial scrolling.
+   if(medal._swayAnimation)medal._swayAnimation.cancel();
+   medal._swayAnimation=medal.animate([
+     {transform:"rotate(0deg)",offset:0},
+     {transform:"rotate("+(direction*7)+"deg)",offset:.19},
+     {transform:"rotate("+(-direction*3.5)+"deg)",offset:.43},
+     {transform:"rotate("+(direction*1.5)+"deg)",offset:.67},
+     {transform:"rotate("+(-direction*.4)+"deg)",offset:.86},
+     {transform:"rotate(0deg)",offset:1}
+   ],{duration:1500,delay:onlyMedal?0:i%4*60,easing:"ease-out",fill:"none"});
  });
 }
+function medalRailFor(target){return target?.closest?.(".medal-rail,.case-grid")}
 main.addEventListener("touchstart",event=>{
- const rail=event.target.closest(".medal-rail,.case-grid");
- medalTouchStart=rail?{rail,x:event.touches[0].clientX,y:event.touches[0].clientY}:null;
- medalSwipeTriggered=false;
+ const rail=medalRailFor(event.target);
+ medalGesture=rail?{rail,x:event.touches[0].clientX,y:event.touches[0].clientY,fired:false}:null;
 },{passive:true});
 main.addEventListener("touchmove",event=>{
- if(!medalTouchStart||medalSwipeTriggered)return;
- const dx=event.touches[0].clientX-medalTouchStart.x;
- const dy=event.touches[0].clientY-medalTouchStart.y;
- if(Math.abs(dx)>18&&Math.abs(dx)>Math.abs(dy)*1.25){
-   medalSwipeTriggered=true;
-   animateMedalRail(medalTouchStart.rail,dx<0?1:-1);
+ if(!medalGesture||medalGesture.fired)return;
+ const dx=event.touches[0].clientX-medalGesture.x;
+ const dy=event.touches[0].clientY-medalGesture.y;
+ if(Math.abs(dx)>=12&&Math.abs(dx)>Math.abs(dy)){
+   medalGesture.fired=true;
+   swingApprovedMedals(medalGesture.rail,dx<0?1:-1);
  }
 },{passive:true});
-main.addEventListener("touchend",()=>{medalTouchStart=null;},{passive:true});
-main.addEventListener("touchcancel",()=>{medalTouchStart=null;},{passive:true});
+main.addEventListener("touchend",event=>{
+ if(!medalGesture)return;
+ const dx=event.changedTouches[0].clientX-medalGesture.x;
+ const dy=event.changedTouches[0].clientY-medalGesture.y;
+ if(!medalGesture.fired&&Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)){
+   swingApprovedMedals(medalGesture.rail,dx<0?1:-1);
+ }
+ medalGesture=null;
+},{passive:true});
+main.addEventListener("touchcancel",()=>{medalGesture=null;},{passive:true});
+// Buttons work with mouse, keyboard, and touch.
 main.addEventListener("click",event=>{
  const arrow=event.target.closest("[data-slide]");
- if(arrow)animateMedalRail(main.querySelector(".medal-rail"),Number(arrow.dataset.slide)>=0?1:-1);
+ if(arrow){swingApprovedMedals(main.querySelector(".medal-rail"),Number(arrow.dataset.slide)>=0?1:-1);return;}
+ const tile=event.target.closest(".case-tile");
+ if(tile&&!medalGesture){
+   const medal=tile.querySelector(".specimen");
+   swingApprovedMedals(medalRailFor(tile),1,medal);
+ }
 });
+// Trackpad/wheel scrolling gets a gentle response too, at most once per second.
+let lastRailScrollSwing=0;
+main.addEventListener("scroll",event=>{
+ const rail=medalRailFor(event.target);
+ if(!rail||medalGesture||performance.now()-lastRailScrollSwing<1000)return;
+ lastRailScrollSwing=performance.now();
+ swingApprovedMedals(rail,1);
+},true);
