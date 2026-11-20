@@ -378,3 +378,32 @@ body{background:var(--cream);color:var(--ink)}
     justify-self:center;
   }
 }
+
+/* Milestones feature: unique article class avoids inheriting .feature-medals flex rules. */
+.feature-grid > .milestone-feature-card{display:block;min-width:0;max-width:100%;overflow:hidden}
+.milestone-feature-card > .feature-label{display:inline-block}
+.milestone-feature-card > h3{display:block;margin:16px 0}
+.milestone-feature-card > p{display:block;max-width:320px;line-height:1.8}
+.milestone-feature-card > .feature-medals{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:clamp(9px,2vw,18px);width:100%;margin-top:34px}
+.milestone-feature-card > .feature-medals > .decor-medal{flex:0 1 98px;min-width:0;width:30%;max-width:98px;height:auto;aspect-ratio:1}
+@media(max-width:720px){
+  .milestone-feature-card > .feature-medals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(7px,2.5vw,14px)}
+  .milestone-feature-card > .feature-medals > .decor-medal{width:100%;max-width:98px;justify-self:center;font-size:clamp(19px,6vw,30px);border-width:4px}
+}
+@media(max-width:360px){.milestone-feature-card > .feature-medals{gap:7px}.milestone-feature-card > .feature-medals > .decor-medal{border-width:3px}}
+/* Passport stamps: neat, aligned cards rather than alternating tilted cards. */
+.stamp-item,.stamp-item:nth-child(even){transform:none;min-width:0}
+.stamps-grid{align-items:stretch}
+.stamp-item{transition:box-shadow .2s,border-color .2s}
+.stamp-item:hover{box-shadow:0 8px 18px #1e4a3320;border-color:#7ebc8a}
+/* Hover a medal to swing its ribbon and medallion together. */
+.medal-item{transform:none!important}
+.medal-item:hover .medal-badge-web{animation:medal-sway 1.5s ease-in-out 1;transform-origin:50% 4px}
+@keyframes medal-sway{
+  0%,100%{transform:rotate(0)}
+  20%{transform:rotate(8deg)}
+  43%{transform:rotate(-6deg)}
+  65%{transform:rotate(3.5deg)}
+  83%{transform:rotate(-1.5deg)}
+}
+@media(prefers-reduced-motion:reduce){.medal-item:hover .medal-badge-web{animation:none}}
