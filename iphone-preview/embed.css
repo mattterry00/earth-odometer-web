@@ -7,3 +7,39 @@ body{display:block;background:#fff;min-height:0}
 .phone main{overscroll-behavior:contain}
 dialog{max-width:95vw;max-height:85dvh}
 @media(max-width:420px){.phone{height:100dvh}.phone main{padding:0 13px 14px}}
+
+/* Approved app, adjusted to the actual embedded iPhone viewport. */
+.phone header{padding:9px 14px 7px;min-height:56px}
+.phone header img{width:30px;height:30px;object-fit:cover}
+.phone header b{font-size:15px}
+.phone header small{font-size:9px}
+.atlas.home{padding-top:5px}
+.atlas .home-brand{width:74%;max-width:270px;margin:3px auto 13px}
+.atlas .counter{margin:0 0 18px;padding:10px 9px 9px;border-radius:16px;overflow:visible}
+.atlas .counter>div{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px}
+.atlas .counter b{min-width:0;font-size:clamp(28px,9vw,46px);line-height:1.35}
+.atlas .counter strong{position:static;display:block;width:auto;margin:9px 2px 0;padding:6px 5px;font:700 12px/1.3 Georgia,serif;white-space:normal;border-radius:7px;box-shadow:none}
+.atlas .pair{gap:8px}
+.atlas .pair article{padding:11px 5px;gap:5px;font-size:13px}
+.atlas .pair i{font-size:20px}
+.atlas .pair b{font-size:clamp(17px,5vw,23px);white-space:nowrap}
+.atlas .orb{gap:7px}
+.atlas .orb img{width:53%;min-width:0}
+.atlas .orb div{font-size:clamp(15px,4vw,19px);padding-left:4%}
+.atlas .orb b{font-size:clamp(32px,10vw,42px)}
+.atlas .row>span{min-width:0}
+.atlas .row strong{font-size:clamp(17px,5vw,21px)}
+.atlas .atlas-card{max-width:100%}
+.atlas .medal-rail,.atlas .case-grid{touch-action:pan-x;overscroll-behavior-x:contain}
+.atlas .case-tile .specimen{transform-origin:50% 8%;will-change:transform}
+.atlas .case-tile .specimen.medal-sway-active{animation:approved-medal-pendulum 1.55s ease-out both}
+@keyframes approved-medal-pendulum{
+  0%{transform:rotate(0)}
+  19%{transform:rotate(calc(var(--medal-direction,1) * 7deg))}
+  42%{transform:rotate(calc(var(--medal-direction,1) * -3.8deg))}
+  66%{transform:rotate(calc(var(--medal-direction,1) * 1.8deg))}
+  84%{transform:rotate(calc(var(--medal-direction,1) * -.5deg))}
+  100%{transform:rotate(0)}
+}
+@media(prefers-reduced-motion:reduce){.atlas .case-tile .specimen.medal-sway-active{animation:none}}
+@media(max-width:420px){.atlas .home-brand{width:74%}.atlas .counter strong{font-size:11px}.atlas .counter b{font-size:clamp(26px,8.5vw,40px)}}
