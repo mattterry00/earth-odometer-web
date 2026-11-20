@@ -217,11 +217,11 @@
   },{passive:true});
   shelf.addEventListener("touchend",()=>{gestureActive=false;},{passive:true});
   shelf.addEventListener("touchcancel",()=>{gestureActive=false;},{passive:true});
-  let scrollBurst=false;
+  let scrollBurst=false,lastScrollSwing=0;
   shelf.addEventListener("scroll",()=>{
     // Desktop trackpads and non-touch scrolling also get one gentle swing.
-    if(gestureActive||scrollBurst||motionReduced)return;
-    scrollBurst=true;swipePlayed=false;
+    if(gestureActive||scrollBurst||motionReduced||(window.matchMedia&&window.matchMedia("(pointer: coarse)").matches)||performance.now()-lastScrollSwing<1500)return;
+    scrollBurst=true;lastScrollSwing=performance.now();swipePlayed=false;
     swayShelf("1");
   },{passive:true});
   shelf.addEventListener("animationend",event=>{
