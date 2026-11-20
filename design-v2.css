@@ -258,3 +258,17 @@ body{background:var(--cream);color:var(--ink)}
   .price-card{padding:29px}
 }
 @media(prefers-reduced-motion:reduce){.hero-product-peek{transition:none}}
+
+/* Globe travel story: routes connect four real visual destination markers. */
+.globe-travel-routes .route-path{vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 3px #e9ffa54a)}
+.globe-travel-routes .route-primary{animation:travel-dashes 18s linear infinite}
+.globe-travel-routes .route-secondary{animation:travel-dashes 24s linear infinite reverse}
+.globe-travel-routes .route-tertiary{animation:travel-dashes 21s linear infinite}
+.globe-map-pin{filter:drop-shadow(0 4px 5px #092a2b99)}
+.globe-map-pin .pin-pulse{transform-box:fill-box;transform-origin:center;animation:destination-pulse 3.8s ease-out infinite}
+.globe-map-pin:nth-of-type(3) .pin-pulse{animation-delay:.7s}
+.globe-map-pin:nth-of-type(4) .pin-pulse{animation-delay:1.5s}
+.globe-map-pin:nth-of-type(5) .pin-pulse{animation-delay:2.2s}
+@keyframes travel-dashes{to{stroke-dashoffset:-120}}
+@keyframes destination-pulse{0%{transform:scale(.6);opacity:.4}65%{transform:scale(1.9);opacity:0}100%{transform:scale(1.9);opacity:0}}
+@media(prefers-reduced-motion:reduce){.globe-travel-routes .route-path,.globe-map-pin .pin-pulse{animation:none}}
