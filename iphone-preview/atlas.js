@@ -165,3 +165,38 @@ document.addEventListener('click',event=>{
  }
 });
 render();
+
+
+// Medal movement in the approved iPhone preview.
+// One smooth, damped swing per gesture; never restart it on every scroll frame.
+let medalTouchStart=null,medalSwipeTriggered=false;
+function animateMedalRail(rail,direction=1){
+ if(!rail||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ rail.querySelectorAll(".case-tile .specimen").forEach((medal,i)=>{
+   medal.classList.remove("medal-sway-active");
+   void medal.offsetWidth;
+   medal.style.setProperty("--medal-direction",String(direction));
+   medal.style.animationDelay=(i%4*65)+"ms";
+   medal.classList.add("medal-sway-active");
+ });
+}
+main.addEventListener("touchstart",event=>{
+ const rail=event.target.closest(".medal-rail,.case-grid");
+ medalTouchStart=rail?{rail,x:event.touches[0].clientX,y:event.touches[0].clientY}:null;
+ medalSwipeTriggered=false;
+},{passive:true});
+main.addEventListener("touchmove",event=>{
+ if(!medalTouchStart||medalSwipeTriggered)return;
+ const dx=event.touches[0].clientX-medalTouchStart.x;
+ const dy=event.touches[0].clientY-medalTouchStart.y;
+ if(Math.abs(dx)>18&&Math.abs(dx)>Math.abs(dy)*1.25){
+   medalSwipeTriggered=true;
+   animateMedalRail(medalTouchStart.rail,dx<0?1:-1);
+ }
+},{passive:true});
+main.addEventListener("touchend",()=>{medalTouchStart=null;},{passive:true});
+main.addEventListener("touchcancel",()=>{medalTouchStart=null;},{passive:true});
+main.addEventListener("click",event=>{
+ const arrow=event.target.closest("[data-slide]");
+ if(arrow)animateMedalRail(main.querySelector(".medal-rail"),Number(arrow.dataset.slide)>=0?1:-1);
+});
