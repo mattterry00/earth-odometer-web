@@ -114,7 +114,11 @@
     $("medal-shelf").innerHTML=medals.map(m=>{const has=state.total>=m.miles;return '<div class="medal-item '+(has?"":"locked")+'"><div class="medal-badge-web"><span class="medal-ribbon" aria-hidden="true"></span><div class="medal-disc"><span>'+m.icon+'</span><small>'+m.small+'</small></div></div><h5>'+m.name+'</h5><p>'+(has?"Unlocked":number(m.miles)+" mi to unlock")+'</p></div>';}).join("");
     $("stamp-count").textContent=state.stamps.length+" collected";
     const stamped=routes.filter(r=>state.stamps.includes(r.id));
-    $("stamps-grid").innerHTML=(stamped.length?stamped:routes.slice(0,3)).map(r=>'<div class="stamp-item '+(state.stamps.includes(r.id)?"":"locked")+'"><span>'+r.emoji+'</span><strong>'+r.name+'</strong><small>'+(state.stamps.includes(r.id)?"JOURNEY COMPLETE":"NOT YET EARNED")+'</small></div>').join("");
+    $("stamps-grid").innerHTML=(stamped.length?stamped:routes.slice(0,3)).map((r,i)=>{
+      const earned=state.stamps.includes(r.id);
+      const ink=["sage","coral","blue","gold"][i%4];
+      return '<div class="passport-stamp-card '+(earned?"":"locked")+'"><div class="postage-stamp '+ink+'"><div class="stamp-art"><div class="stamp-topline"><span>EARTH ODOMETER</span><span>✦ 001</span></div><div class="stamp-landscape"><span class="stamp-scene" aria-hidden="true">'+r.emoji+'</span><span class="stamp-sun" aria-hidden="true"></span><span class="stamp-hill stamp-hill-one"></span><span class="stamp-hill stamp-hill-two"></span></div><div class="stamp-place">'+r.name+'</div><div class="stamp-bottomline"><span>VIRTUAL JOURNEY</span><span>POSTAGE PAID</span></div></div></div><div class="stamp-card-caption"><strong>'+r.name+'</strong><small>'+(earned?"STAMP COLLECTED":"NOT YET EARNED")+'</small></div></div>';
+    }).join("");
   }
   function renderAll(){renderOverview();renderRoutes();renderAchievements();}
   function addMiles(event){
