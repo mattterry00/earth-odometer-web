@@ -95,7 +95,7 @@ function atlasPassport(){
 }
 const medalDistance = goal => goal.target.toLocaleString('en-US',{maximumFractionDigits:1});
 function medalArt(goal){
- const crops={'First Mile':[28,103,217,334],'Marathon Distance':[256,103,218,334],'1,000 Miles':[482,103,217,334],'Earth Lap':[239,645,250,292]};
+ const crops={'First Mile':[28,103,217,334],'Full Marathon':[256,103,218,334],'1,000 Miles':[482,103,217,334],'Earth Lap':[239,645,250,292]};
  const crop=crops[goal.title];
  if(crop)return `<svg class="specimen" aria-hidden="true" viewBox="0 0 116 160"><g clip-path="url(#hanging-medal)"><svg width="116" height="160" viewBox="${crop.join(' ')}" preserveAspectRatio="none"><image href="assets/atlas/cabinet.jpg" width="733" height="930"/></svg></g></svg>`;
  const lunar=goal.title==='Moon Landing', mark=lunar?'☾':goal.mark;
