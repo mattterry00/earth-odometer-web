@@ -637,3 +637,10 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
   .phone-screen,.demo-main,.demo-panel{min-width:0;max-width:100%}
   .share-modal-inner{max-width:100%}
 }
+
+/* Keep the total mileage readable on mobile: remove oversized decorative arrow behind the number. */
+@media(max-width:720px){
+  .lifetime-card .lifetime-decor{display:none!important}
+  .lifetime-card{background:#103a37!important}
+  .lifetime-card .lifetime-number,.lifetime-card .lifetime-foot,.lifetime-card .metric-label{position:relative;z-index:1}
+}
