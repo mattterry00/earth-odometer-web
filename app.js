@@ -114,10 +114,38 @@
     $("medal-shelf").innerHTML=medals.map(m=>{const has=state.total>=m.miles;return '<div class="medal-item '+(has?"":"locked")+'"><div class="medal-badge-web"><span class="medal-ribbon" aria-hidden="true"></span><div class="medal-disc"><span>'+m.icon+'</span><small>'+m.small+'</small></div></div><h5>'+m.name+'</h5><p>'+(has?"Unlocked":number(m.miles)+" mi to unlock")+'</p></div>';}).join("");
     $("stamp-count").textContent=state.stamps.length+" collected";
     const stamped=routes.filter(r=>state.stamps.includes(r.id));
-    $("stamps-grid").innerHTML=(stamped.length?stamped:routes.slice(0,3)).map((r,i)=>{
+    const shown=stamped.length?stamped:routes.slice(0,3);
+    const scenes={
+      park:{type:"woodland",title:"FIRST STEPS",sub:"A SMALL ADVENTURE"},
+      strip:{type:"vegas",title:"LAS VEGAS",sub:"THE CITY OF LIGHTS"},
+      coast:{type:"coast",title:"PACIFIC COAST",sub:"THE LONG WAY HOME"},
+      "vegas-la":{type:"coast",title:"WESTWARD",sub:"DESERT TO OCEAN"},
+      marathon:{type:"woodland",title:"MARATHON",sub:"THE LONG RUN"},
+      route66:{type:"desert",title:"ROUTE 66",sub:"THE OPEN ROAD"},
+      c2c:{type:"coast",title:"COAST TO COAST",sub:"ACROSS AMERICA"},
+      "grand-canyon":{type:"desert",title:"GRAND CANYON",sub:"RED ROCK COUNTRY"},
+      iceland:{type:"nordic",title:"ICELAND",sub:"FIRE & ICE"},
+      japan:{type:"japan",title:"JAPAN",sub:"A JOURNEY EAST"},
+      italy:{type:"italy",title:"ITALIAN ESCAPE",sub:"THE GRAND TOUR"},
+      alps:{type:"nordic",title:"THE ALPS",sub:"ABOVE THE CLOUDS"},
+      pacific:{type:"coast",title:"PACIFIC COAST",sub:"OCEAN AIR"},
+      nile:{type:"desert",title:"THE NILE",sub:"ANCIENT WONDERS"},
+      andes:{type:"nordic",title:"THE ANDES",sub:"HIGHER GROUND"}
+    };
+    const art={
+      woodland:'<path d="M0 125Q40 84 92 115T200 107V180H0Z" fill="#759f87"/><path d="M0 147Q70 111 123 140T200 132V180H0Z" fill="#386e64"/><path d="M46 135V64M137 145V59M169 136V79" stroke="#355d4d" stroke-width="8"/><path d="M46 35l-25 53h50zM137 24l-30 63h60zM169 52l-20 48h40z" fill="#255e52"/><path d="M46 17l-17 48h34zM137 8l-18 51h36z" fill="#4c8e71"/>',
+      vegas:'<path d="M0 143h200v37H0z" fill="#3b5363"/><path d="M13 143V91h26v52M43 143V61h30v82M80 143V80h30v63M114 143V51h25v92M145 143V96h32v47" fill="#34495d"/><path d="M23 103v7m0 10v7m32-51v9m0 13v9m39-13v8m33-37v12m0 15v12m33-3v8" stroke="#ffe7a2" stroke-width="4"/><path d="M126 51V27m-7 14 7-14 7 14" stroke="#34495d" stroke-width="3" fill="none"/><path d="M0 149Q100 132 200 149" stroke="#e3c6a0" stroke-width="3" fill="none"/>',
+      coast:'<circle cx="153" cy="42" r="22" fill="#f8d7a1"/><path d="M0 100Q60 75 100 98T200 91V180H0Z" fill="#82b5b0"/><path d="M0 128Q45 106 93 126T200 121V180H0Z" fill="#4e8d96"/><path d="M0 148Q60 127 105 151T200 141" fill="none" stroke="#e9eee0" stroke-width="5"/><path d="M14 120l40-75 24 49 28-25 36 51" fill="#648e82"/><path d="M53 45l-9 20 17-5z" fill="#f4efe0"/>',
+      desert:'<circle cx="155" cy="43" r="23" fill="#f3c48c"/><path d="M0 115l36-34 27 27 28-43 37 47 25-22 47 35v55H0Z" fill="#bc795d"/><path d="M0 139l49-24 33 25 40-29 78 29v40H0Z" fill="#8f574c"/><path d="M0 157Q90 137 200 158V180H0Z" fill="#d3a47b"/><path d="M35 150v-32m0 12-12-10m12 20 12-11M172 160v-35m0 13 12-11" stroke="#446b5b" stroke-width="6" fill="none"/>',
+      nordic:'<circle cx="151" cy="43" r="17" fill="#fff5d6"/><path d="M0 126l47-76 34 55 32-77 44 76 20-31 23 53v54H0Z" fill="#7499a8"/><path d="M47 50L30 77l19-7 13 10zM113 28L94 75l21-15 20 17zM177 73l-10 25 13-8 10 13z" fill="#f7f8ef"/><path d="M0 142Q60 126 120 145T200 137V180H0Z" fill="#376e7d"/><path d="M0 161Q90 148 200 163" fill="none" stroke="#c5e5df" stroke-width="3"/>',
+      japan:'<circle cx="150" cy="45" r="25" fill="#d68b7d"/><path d="M0 134l49-40 30 28 44-70 40 68 37-22v82H0Z" fill="#789b96"/><path d="M123 52l-19 33 19-10 17 10z" fill="#f4e9dc"/><path d="M27 146V95m-15 2h45M21 108h31M18 97l16-15 17 15" stroke="#8b4b49" stroke-width="6" fill="none"/><path d="M0 153Q90 130 200 151V180H0Z" fill="#527d6c"/>',
+      italy:'<circle cx="156" cy="45" r="22" fill="#f6d7a6"/><path d="M0 143h200v37H0z" fill="#6d9994"/><path d="M20 143V80h38v63M69 143V60h55v83M133 143V95h46v48" fill="#c99775"/><path d="M67 60l30-35 30 35z" fill="#a96559"/><path d="M87 143v-31h18v31" fill="#6e736b"/><path d="M26 92h25M26 107h25M138 109h35" stroke="#f8dfb4" stroke-width="5"/><path d="M0 153Q100 137 200 153" fill="none" stroke="#d6e8db" stroke-width="4"/>'
+    };
+    $("stamps-grid").innerHTML=shown.map((r,i)=>{
       const earned=state.stamps.includes(r.id);
-      const ink=["sage","coral","blue","gold"][i%4];
-      return '<div class="passport-stamp-card '+(earned?"":"locked")+'"><div class="postage-stamp '+ink+'"><div class="stamp-art"><div class="stamp-topline"><span>EARTH ODOMETER</span><span>✦ 001</span></div><div class="stamp-landscape"><span class="stamp-scene" aria-hidden="true">'+r.emoji+'</span><span class="stamp-sun" aria-hidden="true"></span><span class="stamp-hill stamp-hill-one"></span><span class="stamp-hill stamp-hill-two"></span></div><div class="stamp-place">'+r.name+'</div><div class="stamp-bottomline"><span>VIRTUAL JOURNEY</span><span>POSTAGE PAID</span></div></div></div><div class="stamp-card-caption"><strong>'+r.name+'</strong><small>'+(earned?"STAMP COLLECTED":"NOT YET EARNED")+'</small></div></div>';
+      const scene=scenes[r.id]||{type:"woodland",title:r.name.toUpperCase(),sub:"THE JOURNEY"};
+      const serial=String(i+1).padStart(2,"0");
+      return '<article class="collector-stamp '+(earned?"":"locked")+'"><div class="collector-stamp-paper"><div class="collector-stamp-frame"><div class="collector-stamp-top"><span>EARTH ODOMETER</span><b>✦ '+serial+'</b></div><svg class="collector-stamp-art" viewBox="0 0 200 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="200" height="180" fill="'+({woodland:"#c4ddca",vegas:"#eac5a7",coast:"#bcdcd9",desert:"#f3d6b1",nordic:"#c9dce0",japan:"#e6d4c9",italy:"#e8d7b9"}[scene.type])+'"/>'+art[scene.type]+'</svg><div class="collector-stamp-location"><strong>'+scene.title+'</strong><small>'+scene.sub+'</small></div><div class="collector-stamp-foot"><span>JOURNEY SERIES</span><span>✦ 2026</span></div></div></div><div class="collector-stamp-caption"><strong>'+r.name+'</strong><span>'+(earned?"STAMP COLLECTED":"NOT YET EARNED")+'</span></div></article>';
     }).join("");
   }
   function renderAll(){renderOverview();renderRoutes();renderAchievements();}
