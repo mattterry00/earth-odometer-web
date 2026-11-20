@@ -62,14 +62,33 @@
    text("earthodometer.com",1010,1222,23,colors.mint,"700","Manrope, Arial, sans-serif","right");
    text("SAMPLE PREVIEW · iPHONE APP COMING SOON",540,1300,17,"#e1e9d6","600","Manrope, Arial, sans-serif","center");
  }
+ function drawGeometricGlobe(){
+   const cx=540,cy=525,r=228;
+   ctx.save();
+   ctx.strokeStyle=colors.mint;ctx.lineWidth=5;ctx.globalAlpha=.96;
+   ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+   ctx.lineWidth=3.6;
+   ctx.beginPath();ctx.ellipse(cx,cy,r*.43,r,0,0,Math.PI*2);ctx.stroke();
+   ctx.beginPath();ctx.ellipse(cx,cy,r*.78,r,0,0,Math.PI*2);ctx.stroke();
+   ctx.save();ctx.beginPath();ctx.arc(cx,cy,r-1,0,Math.PI*2);ctx.clip();
+   for(const y of [-.55,0,.55]){
+     ctx.beginPath();ctx.moveTo(cx-r,cy+r*y);ctx.lineTo(cx+r,cy+r*y);ctx.stroke();
+   }
+   ctx.translate(cx-r,cy-r);ctx.scale(2*r/240,2*r/240);
+   ctx.fillStyle=colors.mint;ctx.globalAlpha=.22;
+   const shapes=[
+     "M50 82l30-27 27 11 9 27-18 15-4 26-26 9-17-20z",
+     "M137 55l30-14 29 22-4 26-21 10-7 27-27-13-12-32z",
+     "M143 145l28-1 18 24-12 25-29-7-15-23z"
+   ];
+   shapes.forEach(d=>ctx.fill(new Path2D(d)));
+   ctx.restore();ctx.restore();
+ }
  function drawShare(){
    if(!ctx)return;
    ctx.clearRect(0,0,1080,1350);drawBackground();
    if(shareStyle==="distance"){
-     rounded(240,258,600,520,28,colors.cream);
-     if(!drawCover(images.globe,262,278,556,478)){
-       text("◎",540,670,320,colors.teal,"400","Georgia, serif","center");
-     }
+     drawGeometricGlobe();
      text("LIFETIME DISTANCE",540,858,25,colors.mint,"800","Manrope, Arial, sans-serif","center");
      text(fmt(sample.miles)+" MI",540,963,91,colors.cream,"800","Manrope, Arial, sans-serif","center");
      text(fmt(sample.miles/EARTH*100,1)+"% OF AN EARTH LAP",540,1045,30,colors.mint,"800","Manrope, Arial, sans-serif","center");
