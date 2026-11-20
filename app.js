@@ -186,45 +186,55 @@
   mobile.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mobile.hidden=true;menu.setAttribute("aria-expanded","false");menu.setAttribute("aria-label","Open navigation");}));
   $("footer-year").textContent=String(new Date().getFullYear());
   const shelf=$("medal-shelf");
-  // A mobile swipe scrolls the shelf and gently swings the hanging medals.
-  // Animate the ribbon/medallion, not the outer tile, to avoid CSS transform conflicts.
   const motionReduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let swingFrame=0,previousScroll=shelf.scrollLeft,lastSwing=0;
-  function swingMedals(){
-    swingFrame=0;
-    if(motionReduced)return;
-    const delta=shelf.scrollLeft-previousScroll;
-    previousScroll=shelf.scrollLeft;
-    const now=performance.now();
-    if(Math.abs(delta)<.2||now-lastSwing<100)return;
-    lastSwing=now;
-    shelf.querySelectorAll(".medal-badge-web").forEach((badge,index)=>{
-      badge.classList.remove("swipe-swing");
-      // Restart the keyframe animation after each meaningful swipe.
-      void badge.offsetWidth;
-      badge.style.setProperty("--swing-direction",delta>0?"1":"-1");
-      badge.style.animationDelay=(index%4*45)+"ms";
-      badge.classList.add("swipe-swing");
-    });
-  }
-  shelf.addEventListener("scroll",()=>{
-    if(!swingFrame)swingFrame=requestAnimationFrame(swingMedals);
-  },{passive:true});
-  shelf.addEventListener("touchstart",()=>{previousScroll=shelf.scrollLeft;},{passive:true});
-  shelf.addEventListener("animationend",event=>{
-    if(event.target.classList&&event.target.classList.contains("medal-badge-web")){
-      event.target.classList.remove("swipe-swing");
-    }
-  });
-  // Tapping an individual medal also swings it on touch devices.
-  shelf.addEventListener("click",event=>{
-    const badge=event.target.closest(".medal-item")?.querySelector(".medal-badge-web");
-    if(!badge||motionReduced)return;
+  // Trigger once per swipe gesture, never restart on every scroll event.
+  // Repeated keyframe restarts were causing visible jitter on iPhone.
+  let gestureActive=false,swipePlayed=false,touchStartX=0,touchStartY=0;
+  function swayBadge(badge,direction="1"){
+    if(motionReduced||!badge)return;
+    badge.style.setProperty("--swing-direction",direction);
     badge.classList.remove("swipe-swing");
     void badge.offsetWidth;
-    badge.style.animationDelay="0ms";
-    badge.style.setProperty("--swing-direction","1");
     badge.classList.add("swipe-swing");
+  }
+  function swayShelf(direction){
+    if(motionReduced||swipePlayed)return;
+    swipePlayed=true;
+    shelf.querySelectorAll(".medal-badge-web").forEach((badge,index)=>{
+      badge.style.animationDelay=(index%4*55)+"ms";
+      swayBadge(badge,direction);
+    });
+  }
+  shelf.addEventListener("touchstart",event=>{
+    gestureActive=true;swipePlayed=false;
+    touchStartX=event.touches[0].clientX;touchStartY=event.touches[0].clientY;
+  },{passive:true});
+  shelf.addEventListener("touchmove",event=>{
+    if(!gestureActive||swipePlayed)return;
+    const dx=event.touches[0].clientX-touchStartX;
+    const dy=event.touches[0].clientY-touchStartY;
+    if(Math.abs(dx)>15&&Math.abs(dx)>Math.abs(dy)*1.2)swayShelf(dx<0?"1":"-1");
+  },{passive:true});
+  shelf.addEventListener("touchend",()=>{gestureActive=false;},{passive:true});
+  shelf.addEventListener("touchcancel",()=>{gestureActive=false;},{passive:true});
+  let scrollBurst=false;
+  shelf.addEventListener("scroll",()=>{
+    // Desktop trackpads and non-touch scrolling also get one gentle swing.
+    if(gestureActive||scrollBurst||motionReduced)return;
+    scrollBurst=true;swipePlayed=false;
+    swayShelf("1");
+  },{passive:true});
+  shelf.addEventListener("animationend",event=>{
+    if(event.target.classList?.contains("medal-badge-web")){
+      event.target.classList.remove("swipe-swing");
+      event.target.style.animationDelay="0ms";
+      scrollBurst=false;
+    }
+  });
+  shelf.addEventListener("click",event=>{
+    if(motionReduced||swipePlayed)return;
+    const badge=event.target.closest(".medal-item")?.querySelector(".medal-badge-web");
+    if(badge){badge.style.animationDelay="0ms";swayBadge(badge);}
   });
 
   // Sample share cards: generated locally, no upload or account required.
