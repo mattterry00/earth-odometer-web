@@ -44,12 +44,3 @@ dialog{max-width:95vw;max-height:85dvh}
 }
 @media(prefers-reduced-motion:reduce){.atlas .case-tile .specimen.medal-sway-active{animation:none}}
 @media(max-width:420px){.atlas .home-brand{width:74%}.atlas .counter strong{font-size:11px}.atlas .counter b{font-size:clamp(26px,8.5vw,40px)}}
-
-/* Option B trial in the iPhone preview: exact geometric globe used on share card. */
-.atlas .orb>.geometric-globe{
- display:block;flex:0 0 53%;width:53%;height:auto;min-width:0;
- aspect-ratio:1/1;padding:10px;border-radius:50%;
- background:radial-gradient(circle at 42% 30%,#225f54,#0b2928 75%);
- color:#d6f49c;box-shadow:0 5px 16px #0b29282a;
-}
-@media(max-width:420px){.atlas .orb>.geometric-globe{padding:8px}}
