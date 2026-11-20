@@ -779,3 +779,8 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
 /* Present the approved illustration on an intentional cream art panel, not a white image rectangle. */
 .share-card-globe img{mix-blend-mode:normal;background:#f8f3e5;border:7px solid #f8f3e5;box-shadow:0 12px 25px #031d1c52;max-height:225px}
 @media(max-width:720px){.share-card-globe img{max-height:175px;border-width:5px}}
+
+/* Option B trial: geometric globe on the branded sharing card. */
+.share-card-globe-geometric{color:#d6f49c;min-height:0;padding:8px 0;filter:drop-shadow(0 0 22px #d6f49c30)}
+.share-card-globe-geometric svg{display:block;width:min(84%,265px);height:auto;max-height:100%;overflow:visible}
+@media(max-width:720px){.share-card-globe-geometric svg{width:min(80%,210px)}}
