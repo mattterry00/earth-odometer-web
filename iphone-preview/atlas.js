@@ -135,7 +135,7 @@ function render(){
  main.innerHTML=({Home:atlasHome,Journeys:atlasJourneys,Passport:atlasPassport,Medals:atlasMedals,Profile:profile,History:history})[tab]();main.scrollTop=0;
  try {
    window.parent.postMessage({type:"earth-odometer-preview-state",miles:Number(miles),earthLaps:Number(miles)/24901,
-     journey:{name:"Route 66",progress:Number(bestMiles.route66||842),total:2448},
+     journey:{name:activeRun?destinations[activeRun.key].name:"Route 66",progress:activeRun?Number(journeyMiles(destinations[activeRun.key])):Number(bestMiles.route66??842),total:activeRun?Number(destinations[activeRun.key].miles):2448},
      completedJourney:{name:"Virtual Boston Marathon",miles:26.2},
      medal:{name:"1,000 Miles",miles:1000},
      sample:true},"*");
