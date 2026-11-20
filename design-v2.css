@@ -407,3 +407,41 @@ body{background:var(--cream);color:var(--ink)}
   83%{transform:rotate(-1.5deg)}
 }
 @media(prefers-reduced-motion:reduce){.medal-item:hover .medal-badge-web{animation:none}}
+
+/* Passport redesign: real postage-stamp silhouettes rather than dashed achievement cards. */
+.stamps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.passport-stamp-card{min-width:0;text-align:center;background:transparent;padding:9px 4px 4px}
+.postage-stamp{
+  --stamp-ink:#2f7167;--stamp-paper:#e8eee0;
+  position:relative;margin:0 auto;max-width:265px;aspect-ratio:1.18/1;
+  padding:11px;background:#f8f5e7;filter:drop-shadow(0 6px 6px #2a3d321f);
+  /* perforated paper edge */
+  -webkit-mask:radial-gradient(circle at 6px 6px,transparent 4.2px,#000 4.6px) -6px -6px/12px 12px,linear-gradient(#000 0 0);
+  -webkit-mask-composite:source-over;
+  clip-path:polygon(0 3%,3% 3%,3% 0,97% 0,97% 3%,100% 3%,100% 97%,97% 97%,97% 100%,3% 100%,3% 97%,0 97%);
+}
+.postage-stamp:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 6px 0,#eef1e9 3.4px,transparent 3.8px) 0 0/12px 100% repeat-x,radial-gradient(circle at 6px 100%,#eef1e9 3.4px,transparent 3.8px) 0 0/12px 100% repeat-x}
+.stamp-art{position:relative;height:100%;overflow:hidden;border:2px solid var(--stamp-ink);background:var(--stamp-paper);display:flex;flex-direction:column;align-items:stretch;padding:8px}
+.stamp-topline,.stamp-bottomline{display:flex;justify-content:space-between;gap:5px;font-size:clamp(5px,.55vw,8px);letter-spacing:1px;font-weight:900;color:var(--stamp-ink);white-space:nowrap}
+.stamp-landscape{flex:1;position:relative;min-height:70px;overflow:hidden;margin:6px 0 3px;background:linear-gradient(#b9dbd4,#dbe9d8)}
+.stamp-scene{position:absolute;left:50%;top:28%;transform:translate(-50%,-50%);font-size:clamp(34px,4vw,61px);z-index:3;filter:drop-shadow(1px 4px 2px #214b3833)}
+.stamp-sun{position:absolute;right:17%;top:10%;width:26px;height:26px;border-radius:50%;background:#f6d49c;z-index:1}
+.stamp-hill{position:absolute;bottom:-35%;width:120%;height:70%;border-radius:50%;background:#73a99b;z-index:1}
+.stamp-hill-one{left:-42%;transform:rotate(-12deg)}
+.stamp-hill-two{right:-52%;background:#438a7b;transform:rotate(13deg)}
+.stamp-place{font-family:Georgia,serif;font-weight:800;color:var(--stamp-ink);font-size:clamp(10px,1.2vw,16px);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:4px 0}
+.postage-stamp.coral{--stamp-ink:#8d5246;--stamp-paper:#f6e7cf}
+.postage-stamp.coral .stamp-landscape{background:linear-gradient(#e7c8a6,#f3e4d0)}
+.postage-stamp.coral .stamp-hill-one{background:#c89176}
+.postage-stamp.coral .stamp-hill-two{background:#9f6d58}
+.postage-stamp.blue{--stamp-ink:#416d85;--stamp-paper:#e3edf1}
+.postage-stamp.blue .stamp-landscape{background:linear-gradient(#a4cbdc,#e7f1f2)}
+.postage-stamp.blue .stamp-hill-one{background:#8bb3bd}
+.postage-stamp.blue .stamp-hill-two{background:#588da2}
+.postage-stamp.gold{--stamp-ink:#866c39;--stamp-paper:#f3ecd0}
+.stamp-card-caption{padding:13px 0 0;display:grid;gap:4px}
+.stamp-card-caption strong{font-size:12px;color:#2c584a}
+.stamp-card-caption small{font-size:9px;letter-spacing:1px;color:#7d9887;font-weight:800}
+.passport-stamp-card.locked{opacity:.42;filter:grayscale(.7)}
+@media(max-width:850px){.stamps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.postage-stamp{max-width:270px}}
+@media(max-width:460px){.stamps-grid{grid-template-columns:1fr;gap:20px}.postage-stamp{max-width:270px}.stamp-topline,.stamp-bottomline{font-size:8px}.stamp-place{font-size:15px}.stamp-scene{font-size:57px}}
