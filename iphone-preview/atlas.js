@@ -133,6 +133,14 @@ function render(){
  nav.innerHTML=tabs.map(n=>`<button data-tab="${n}" ${tab===n?'aria-current="page"':''}>${svg(n)}<span>${n}</span></button>`).join('');
  main.className=legacy?'':'atlas '+tab.toLowerCase();
  main.innerHTML=({Home:atlasHome,Journeys:atlasJourneys,Passport:atlasPassport,Medals:atlasMedals,Profile:profile,History:history})[tab]();main.scrollTop=0;
+ try {
+   window.parent.postMessage({type:"earth-odometer-preview-state",miles:Number(miles),earthLaps:Number(miles)/24901,
+     journey:{name:"Route 66",progress:Number(bestMiles.route66||842),total:2448},
+     completedJourney:{name:"Virtual Boston Marathon",miles:26.2},
+     medal:{name:"1,000 Miles",miles:1000},
+     sample:true},"*");
+ } catch(_) { /* standalone preview remains usable */ }
+
 }
 icons.Medals='m8 3 4 6 4-6M7 3h10l-2 7m-6 0L7 3m5 5a6 6 0 1 0 0 12 6 6 0 0 0 0-12m-2 11-1 3 3-1 3 1-1-3';
 function go(n){dialog.close();tab=n;render()}
@@ -231,3 +239,8 @@ document.addEventListener("scroll",event=>{
  lastRailScrollSwing=performance.now();
  swingApprovedMedals(rail,1);
 },true);
+
+window.addEventListener("message",event=>{
+ if(event.origin!==location.origin||event.data?.type!=="earth-odometer-request-state")return;
+ render();
+});
