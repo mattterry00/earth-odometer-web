@@ -619,3 +619,21 @@ body{background:var(--cream);color:var(--ink)}
 .share-style-option:hover{border-color:#6ba77c}
 @media(max-width:470px){.collector-postmark{width:83px;height:83px;font-size:9px}.share-style-option{flex:1 1 100px;padding:10px 7px}}
 @media(prefers-reduced-motion:reduce){.collector-stamp:hover .collector-stamp-paper{transform:none}}
+
+/* Mobile horizontal-overflow repair: prevent off-canvas decoration from widening the page. */
+html{max-width:100%;overflow-x:clip}
+body{max-width:100%;overflow-x:clip}
+main,.site-header,.site-footer{max-width:100%;min-width:0}
+.container{min-width:0}
+@media(max-width:720px){
+  .hero,.features-section,.demo-section,.share-section,.pricing-section,.closing-cta,.editorial-bridge{overflow-x:clip}
+  .hero-grid,.hero-copy,.hero-art,.feature-grid,.feature-card,.iphone-preview-stage,.share-section>.container,.share-intro,.share-art{min-width:0;max-width:100%}
+  .hero-art{overflow:hidden}
+  .hero-globe{max-width:100%}
+  .hero-product-peek{left:0}
+  .floating-stat-top{right:0}
+  .share-art:before{max-width:90vw;max-height:90vw}
+  .phone-frame{min-width:0;max-width:100%}
+  .phone-screen,.demo-main,.demo-panel{min-width:0;max-width:100%}
+  .share-modal-inner{max-width:100%}
+}
