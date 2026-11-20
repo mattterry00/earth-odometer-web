@@ -481,3 +481,39 @@ body{background:var(--cream);color:var(--ink)}
   .feature-postage-inner small{font-size:clamp(5px,1.6vw,8px)}
 }
 @media(max-width:370px){.feature-postage{padding:4px}.feature-postage-inner{border-width:1px;padding:4px 1px}}
+
+/* Collector passport series: miniature illustrated travel posters, not plain tiles. */
+.stamps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.collector-stamp{min-width:0;display:flex;flex-direction:column;align-items:center;gap:13px;padding:5px 2px 8px}
+.collector-stamp-paper{
+  width:min(100%,255px);aspect-ratio:0.92;
+  background:#f7f3e8;
+  padding:13px;
+  box-shadow:0 14px 25px #18382d24,0 2px 4px #18382d14;
+  position:relative;
+  /* evenly spaced perforations cut out from all four edges */
+  -webkit-mask:
+    radial-gradient(circle at 50% 0,transparent 4px,#000 4.5px) 0 0/14px 100% repeat-x,
+    radial-gradient(circle at 0 50%,transparent 4px,#000 4.5px) 0 0/100% 14px repeat-y;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.collector-stamp:hover .collector-stamp-paper{transform:translateY(-5px);box-shadow:0 22px 35px #18382d2c}
+.collector-stamp-frame{height:100%;display:flex;flex-direction:column;border:2px solid #355b4c;padding:9px 9px 7px;background:#e8ebdc}
+.collector-stamp:nth-child(3n+2) .collector-stamp-frame{border-color:#945b4e;background:#f1e6d5}
+.collector-stamp:nth-child(3n) .collector-stamp-frame{border-color:#4c7886;background:#e4edf0}
+.collector-stamp-top,.collector-stamp-foot{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:8px;letter-spacing:1px;font-weight:900;color:#416e5c;white-space:nowrap}
+.collector-stamp:nth-child(3n+2) .collector-stamp-top,.collector-stamp:nth-child(3n+2) .collector-stamp-foot{color:#945b4e}
+.collector-stamp:nth-child(3n) .collector-stamp-top,.collector-stamp:nth-child(3n) .collector-stamp-foot{color:#4c7886}
+.collector-stamp-top{margin-bottom:8px}
+.collector-stamp-art{display:block;width:100%;height:auto;min-height:0;flex:1;object-fit:cover;border:1px solid #27493a25}
+.collector-stamp-location{text-align:center;padding:10px 2px 8px;display:grid;gap:4px;color:#315849}
+.collector-stamp-location strong{font-family:Georgia,serif;font-size:clamp(12px,1.15vw,17px);letter-spacing:.3px}
+.collector-stamp-location small{font-size:8px;letter-spacing:1.1px;font-weight:800}
+.collector-stamp-foot{border-top:1px solid #466b573d;padding-top:7px;font-size:7px}
+.collector-stamp-caption{text-align:center;display:grid;gap:4px}
+.collector-stamp-caption strong{font-size:12px;color:#294e41}
+.collector-stamp-caption span{font-size:9px;letter-spacing:1px;color:#779180;font-weight:800}
+.collector-stamp.locked{opacity:.5;filter:grayscale(.65)}
+@media(max-width:850px){.stamps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.collector-stamp-paper{max-width:260px}}
+@media(max-width:470px){.stamps-grid{grid-template-columns:1fr;gap:22px}.collector-stamp-paper{width:min(100%,260px)}.collector-stamp-location strong{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.collector-stamp-paper{transition:none}.collector-stamp:hover .collector-stamp-paper{transform:none}}
