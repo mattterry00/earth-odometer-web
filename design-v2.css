@@ -704,3 +704,31 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
  .site-header .header-actions{min-width:0;gap:8px}
 }
 @media(max-width:390px){.site-header .app-store-coming{max-width:129px;padding:6px}.site-header .app-store-coming strong{font-size:12px}}
+
+/* Exact passport-imprint treatment from the approved iPhone app.
+   SVG layout, ink strokes, curved branding and illustrated artwork match
+   the native app's passportImprint component. */
+.milestone-feature-card>.feature-stamp-showcase-authentic{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:clamp(4px,1vw,12px);align-items:center;justify-content:center;
+ margin-top:27px;width:100%;max-width:100%;min-width:0;
+}
+.feature-stamp-showcase-authentic>.feature-imprint{
+ min-width:0;width:100%;padding:0;background:transparent;
+ transform:rotate(-4deg);transform-origin:50% 50%;
+ transition:transform .3s ease;
+}
+.feature-stamp-showcase-authentic>.feature-imprint:nth-child(2){transform:rotate(3deg)}
+.feature-stamp-showcase-authentic>.feature-imprint:nth-child(3){transform:rotate(-2deg)}
+.feature-stamp-showcase-authentic>.feature-imprint svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 3px 2px #163c3222)}
+@media(hover:hover) and (pointer:fine){
+ .feature-stamp-showcase-authentic>.feature-imprint:hover{transform:rotate(0deg) translateY(-3px)}
+}
+@media(max-width:720px){
+ .milestone-feature-card>.feature-stamp-showcase-authentic{gap:2px;margin-top:22px}
+ .feature-stamp-showcase-authentic>.feature-imprint svg{filter:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .feature-stamp-showcase-authentic>.feature-imprint{transition:none}
+ .feature-stamp-showcase-authentic>.feature-imprint:hover{transform:none}
+}
