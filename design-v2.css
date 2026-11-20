@@ -445,3 +445,39 @@ body{background:var(--cream);color:var(--ink)}
 .passport-stamp-card.locked{opacity:.42;filter:grayscale(.7)}
 @media(max-width:850px){.stamps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.postage-stamp{max-width:270px}}
 @media(max-width:460px){.stamps-grid{grid-template-columns:1fr;gap:20px}.postage-stamp{max-width:270px}.stamp-topline,.stamp-bottomline{font-size:8px}.stamp-place{font-size:15px}.stamp-scene{font-size:57px}}
+
+/* Marketing card: collectible postage stamps, not circular medal icons. */
+.milestone-feature-card > .feature-stamp-showcase{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(8px,1.3vw,15px);align-items:center;
+  margin-top:28px;width:100%;max-width:100%;min-width:0;
+}
+.feature-postage{
+  --postage-ink:#406f5b;--postage-bg:#e8eed9;
+  min-width:0;aspect-ratio:.81;position:relative;
+  padding:clamp(5px,.8vw,9px);
+  background:#fff9e8;
+  border:1px solid #e6e1cc;
+  box-shadow:0 8px 20px #2445351b;
+  clip-path:polygon(0 4%,4% 4%,4% 0,96% 0,96% 4%,100% 4%,100% 96%,96% 96%,96% 100%,4% 100%,4% 96%,0 96%);
+}
+.feature-postage-inner{
+  border:2px solid var(--postage-ink);height:100%;padding:6px 3px;
+  background:linear-gradient(160deg,var(--postage-bg),#f7f2df);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;
+  overflow:hidden;gap:3px;
+}
+.feature-postage-top{font-size:clamp(5px,.6vw,8px);font-weight:900;letter-spacing:.5px;color:var(--postage-ink);white-space:nowrap}
+.feature-postage-icon{font-size:clamp(23px,3vw,42px);line-height:1.2;filter:drop-shadow(0 3px 2px #1c3b2a28)}
+.feature-postage-inner strong{font-family:Georgia,serif;font-size:clamp(7px,.83vw,12px);color:var(--postage-ink);line-height:1.1;white-space:nowrap}
+.feature-postage-inner small{font-size:clamp(5px,.6vw,8px);letter-spacing:.35px;color:var(--postage-ink);font-weight:800;white-space:nowrap}
+.feature-postage.stamp-two{--postage-ink:#9b6552;--postage-bg:#f5e2d0}
+.feature-postage.stamp-three{--postage-ink:#45788e;--postage-bg:#e1edf1}
+@media(max-width:720px){
+  .milestone-feature-card > .feature-stamp-showcase{gap:clamp(7px,2vw,12px);margin-top:26px}
+  .feature-postage-top{font-size:clamp(5px,1.6vw,8px)}
+  .feature-postage-icon{font-size:clamp(23px,7vw,42px)}
+  .feature-postage-inner strong{font-size:clamp(7px,2.2vw,12px)}
+  .feature-postage-inner small{font-size:clamp(5px,1.6vw,8px)}
+}
+@media(max-width:370px){.feature-postage{padding:4px}.feature-postage-inner{border-width:1px;padding:4px 1px}}
