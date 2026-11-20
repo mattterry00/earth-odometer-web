@@ -316,3 +316,18 @@ body{background:var(--cream);color:var(--ink)}
 .medal-item.locked .medal-disc{filter:none;opacity:1}
 .medal-item:hover{transform:rotate(-3deg)}
 @media(prefers-reduced-motion:reduce){.medal-item{will-change:auto;transform:none!important}}
+
+/* Mobile fix: the three medals in the marketing feature card must fit its inner width. */
+.feature-medals{max-width:100%;min-width:0;gap:clamp(8px,2vw,18px);align-items:center;justify-content:center}
+.feature-medals .decor-medal{box-sizing:border-box;flex:0 1 98px;min-width:0;aspect-ratio:1;width:auto;height:auto}
+@media(max-width:720px){
+  .feature-card.feature-medals{min-width:0;overflow:hidden}
+  .feature-card.feature-medals .feature-medals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(7px,2.5vw,14px);width:100%;margin-top:30px}
+  .feature-card.feature-medals .decor-medal{width:100%;max-width:98px;height:auto;aspect-ratio:1;justify-self:center;font-size:clamp(19px,6vw,30px);border-width:4px}
+  .feature-card.feature-medals .decor-medal small{font-size:clamp(8px,2.5vw,10px)}
+}
+@media(max-width:360px){
+  .feature-card.feature-medals{padding:22px}
+  .feature-card.feature-medals .feature-medals{gap:7px}
+  .feature-card.feature-medals .decor-medal{border-width:3px}
+}
