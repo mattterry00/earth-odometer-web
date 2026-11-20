@@ -671,3 +671,15 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
   .lifetime-card .lifetime-decor-globe{display:block;width:145px;height:145px;right:-24px;top:52%;opacity:.11}
 }
 @media(max-width:390px){.lifetime-card .lifetime-decor-globe{width:125px;height:125px;right:-22px;opacity:.09}}
+
+/* Smooth pendulum motion with smaller, decaying arcs; no snap-back shaking. */
+.medal-badge-web.swipe-swing{animation:medal-smooth-pendulum 1.45s cubic-bezier(.25,.12,.3,1) both!important;transform-origin:50% 5px}
+@keyframes medal-smooth-pendulum{
+  0%{transform:rotate(0deg)}
+  20%{transform:rotate(calc(var(--swing-direction,1) * 6deg))}
+  44%{transform:rotate(calc(var(--swing-direction,1) * -3.2deg))}
+  68%{transform:rotate(calc(var(--swing-direction,1) * 1.3deg))}
+  87%{transform:rotate(calc(var(--swing-direction,1) * -.35deg))}
+  100%{transform:rotate(0deg)}
+}
+@media(prefers-reduced-motion:reduce){.medal-badge-web.swipe-swing{animation:none!important}}
