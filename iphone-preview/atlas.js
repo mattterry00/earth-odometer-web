@@ -190,11 +190,11 @@ function swingApprovedMedals(rail,direction=1,onlyMedal=null){
  });
 }
 function medalRailFor(target){return target?.closest?.(".medal-rail,.case-grid")}
-main.addEventListener("touchstart",event=>{
+document.addEventListener("touchstart",event=>{
  const rail=medalRailFor(event.target);
  medalGesture=rail?{rail,x:event.touches[0].clientX,y:event.touches[0].clientY,fired:false}:null;
 },{passive:true});
-main.addEventListener("touchmove",event=>{
+document.addEventListener("touchmove",event=>{
  if(!medalGesture||medalGesture.fired)return;
  const dx=event.touches[0].clientX-medalGesture.x;
  const dy=event.touches[0].clientY-medalGesture.y;
@@ -203,7 +203,7 @@ main.addEventListener("touchmove",event=>{
    swingApprovedMedals(medalGesture.rail,dx<0?1:-1);
  }
 },{passive:true});
-main.addEventListener("touchend",event=>{
+document.addEventListener("touchend",event=>{
  if(!medalGesture)return;
  const dx=event.changedTouches[0].clientX-medalGesture.x;
  const dy=event.changedTouches[0].clientY-medalGesture.y;
@@ -212,9 +212,9 @@ main.addEventListener("touchend",event=>{
  }
  medalGesture=null;
 },{passive:true});
-main.addEventListener("touchcancel",()=>{medalGesture=null;},{passive:true});
+document.addEventListener("touchcancel",()=>{medalGesture=null;},{passive:true});
 // Buttons work with mouse, keyboard, and touch.
-main.addEventListener("click",event=>{
+document.addEventListener("click",event=>{
  const arrow=event.target.closest("[data-slide]");
  if(arrow){swingApprovedMedals(main.querySelector(".medal-rail"),Number(arrow.dataset.slide)>=0?1:-1);return;}
  const tile=event.target.closest(".case-tile");
@@ -225,7 +225,7 @@ main.addEventListener("click",event=>{
 });
 // Trackpad/wheel scrolling gets a gentle response too, at most once per second.
 let lastRailScrollSwing=0;
-main.addEventListener("scroll",event=>{
+document.addEventListener("scroll",event=>{
  const rail=medalRailFor(event.target);
  if(!rail||medalGesture||performance.now()-lastRailScrollSwing<1000)return;
  lastRailScrollSwing=performance.now();
