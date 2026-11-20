@@ -194,5 +194,42 @@
       item.style.transform="rotate("+angle.toFixed(1)+"deg)";
     });frame=false;
   });},{passive:true});
+
+  // Sample share cards: generated locally, no upload or account required.
+  const modal=$("share-modal"),canvas=$("share-canvas");
+  const closeShare=()=>{modal.hidden=true;document.body.style.overflow="";};
+  function drawShare(){
+    const ctx=canvas.getContext("2d");
+    if(!ctx)return;
+    const w=canvas.width,h=canvas.height;
+    const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,"#0b2d2e");bg.addColorStop(.55,"#1b5b50");bg.addColorStop(1,"#092324");
+    ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle="rgba(213,244,156,.15)";ctx.lineWidth=2;
+    for(let i=0;i<7;i++){ctx.beginPath();ctx.arc(w/2,490,180+i*40,0,Math.PI*2);ctx.stroke();}
+    ctx.fillStyle="#d6f49c";ctx.font="bold 36px Manrope, sans-serif";ctx.fillText("◎  EARTH ODOMETER",72,105);
+    ctx.fillStyle="#b4d2bd";ctx.font="bold 25px Manrope, sans-serif";ctx.fillText("MY JOURNEY SO FAR",72,170);
+    ctx.textAlign="center";ctx.fillStyle="#9fe0bb";ctx.font="340px Georgia, serif";ctx.fillText("◎",w/2,750);
+    ctx.fillStyle="#d6f49c";ctx.font="bold 26px Manrope, sans-serif";ctx.fillText("LIFETIME DISTANCE",w/2,895);
+    ctx.fillStyle="#fffef2";ctx.font="bold 92px Manrope, sans-serif";ctx.fillText(number(state.total)+" MI",w/2,1002);
+    ctx.fillStyle="#d6f49c";ctx.font="bold 31px Manrope, sans-serif";ctx.fillText(number(state.total/EARTH*100)+"% OF AN EARTH LAP",w/2,1072);
+    ctx.strokeStyle="rgba(214,244,156,.5)";ctx.beginPath();ctx.moveTo(72,1170);ctx.lineTo(w-72,1170);ctx.stroke();
+    ctx.font="bold 24px Manrope, sans-serif";ctx.fillStyle="#d6f49c";ctx.textAlign="left";ctx.fillText("EVERY MILE TELLS A STORY",72,1220);
+    ctx.textAlign="right";ctx.fillText("earthodometer.com",w-72,1220);
+  }
+  function openShare(){drawShare();modal.hidden=false;document.body.style.overflow="hidden";$("share-modal-close").focus();}
+  $("share-preview-button").addEventListener("click",openShare);
+  $("preview-share-trigger").addEventListener("click",openShare);
+  $("share-modal-close").addEventListener("click",closeShare);
+  modal.addEventListener("click",e=>{if(e.target===modal)closeShare();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)closeShare();});
+  $("download-share").addEventListener("click",()=>{
+    drawShare();
+    const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download="earth-odometer-sample-share.png";a.click();
+  });
+  $("copy-share").addEventListener("click",()=>{
+    const copy="I've traveled "+number(state.total)+" miles — "+number(state.total/EARTH*100)+"% around Earth! Earth Odometer iPhone app coming soon. earthodometer.com";
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(copy).then(()=>$("copy-share").textContent="Copied!").catch(()=>$("copy-share").textContent="Copy unavailable");
+    else $("copy-share").textContent="Copy unavailable";
+  });
   renderAll();
 })();
