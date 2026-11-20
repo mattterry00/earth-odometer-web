@@ -644,3 +644,20 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
   .lifetime-card{background:#103a37!important}
   .lifetime-card .lifetime-number,.lifetime-card .lifetime-foot,.lifetime-card .metric-label{position:relative;z-index:1}
 }
+
+/* Medal shelf interaction: swing ribbon/medallion on touch swipe, tap or desktop hover. */
+.medal-shelf{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.medal-item{transform:none!important}
+.medal-badge-web{transform-origin:50% 4px;will-change:transform}
+.medal-badge-web.swipe-swing{animation:medal-touch-sway 1.15s ease-out both!important}
+@keyframes medal-touch-sway{
+  0%{transform:rotate(0)}
+  20%{transform:rotate(calc(var(--swing-direction,1) * 8deg))}
+  43%{transform:rotate(calc(var(--swing-direction,1) * -5deg))}
+  65%{transform:rotate(calc(var(--swing-direction,1) * 2.7deg))}
+  83%{transform:rotate(calc(var(--swing-direction,1) * -1deg))}
+  100%{transform:rotate(0)}
+}
+@media(hover:hover) and (pointer:fine){.medal-item:hover .medal-badge-web:not(.swipe-swing){animation:medal-sway 1.5s ease-in-out 1}}
+@media(hover:none){.medal-item:hover .medal-badge-web:not(.swipe-swing){animation:none}}
+@media(prefers-reduced-motion:reduce){.medal-badge-web.swipe-swing,.medal-item:hover .medal-badge-web{animation:none!important;will-change:auto}}
