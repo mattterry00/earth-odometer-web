@@ -30,7 +30,8 @@ dialog{max-width:95vw;max-height:85dvh}
 .atlas .row>span{min-width:0}
 .atlas .row strong{font-size:clamp(17px,5vw,21px)}
 .atlas .atlas-card{max-width:100%}
-.atlas .medal-rail,.atlas .case-grid{touch-action:pan-x;overscroll-behavior-x:contain}
+.atlas .medal-rail{touch-action:pan-x;overscroll-behavior-x:contain}
+.atlas .case-grid{touch-action:pan-y;overscroll-behavior-y:contain}
 .atlas .case-tile .specimen{transform-origin:50% 8%;will-change:transform}
 .atlas .case-tile .specimen.medal-sway-active{animation:approved-medal-pendulum 1.55s ease-out both}
 @keyframes approved-medal-pendulum{
