@@ -125,7 +125,7 @@
    const phrase=shareStyle==="distance"
      ?"My Earth Odometer sample journey: "+fmt(sample.miles)+" miles ("+fmt(sample.miles/EARTH*100,1)+"% of an Earth lap)."
      :shareStyle==="journey"
-     ?"My Earth Odometer sample Route 66 journey: "+fmt(sample.journey.progress)+" of "+fmt(sample.journey.total)+" miles."
+     ?"My Earth Odometer sample "+sample.journey.name+" journey: "+fmt(sample.journey.progress)+" of "+fmt(sample.journey.total)+" miles."
      :"My Earth Odometer sample milestone: "+sample.medal.name+" ("+fmt(sample.medal.miles)+" miles).";
    const copy=phrase+" iPhone app coming soon: earthodometer.com";
    try{await navigator.clipboard.writeText(copy);$("copy-share").textContent="Copied!"}
