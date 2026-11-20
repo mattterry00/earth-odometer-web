@@ -247,10 +247,6 @@
   $("share-modal-close").addEventListener("click",closeShare);
   modal.addEventListener("click",e=>{if(e.target===modal)closeShare();});
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)closeShare();});
-  $("download-share").addEventListener("click",()=>{
-    drawShare();
-    const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download="earth-odometer-sample-share.png";a.click();
-  });
   $("copy-share").addEventListener("click",()=>{
     const copy="I've traveled "+number(state.total)+" miles — "+number(state.total/EARTH*100)+"% around Earth! Earth Odometer iPhone app coming soon. earthodometer.com";
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(copy).then(()=>$("copy-share").textContent="Copied!").catch(()=>$("copy-share").textContent="Copy unavailable");
