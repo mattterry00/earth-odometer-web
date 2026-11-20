@@ -583,3 +583,39 @@ body{background:var(--cream);color:var(--ink)}
 .share-modal-inner>p{font-size:11px;color:#6c8676}
 @media(max-width:850px){.iphone-preview-stage{grid-template-columns:1fr;gap:15px}.phone-stage-caption{position:static;text-align:center;padding:10px 0 25px}.phone-stage-caption p{margin:0 auto}.phone-stage-points{display:flex;justify-content:center;flex-wrap:wrap}.share-section>.container{grid-template-columns:1fr}.share-art{min-height:430px}}
 @media(max-width:460px){.phone-frame{max-width:100%;border-width:6px;border-radius:38px;padding:5px}.phone-screen{max-height:690px;border-radius:0 0 25px 25px}.phone-frame .lifetime-number{font-size:30px}.phone-frame .earth-gauge{width:115px}.phone-stage-caption h3{font-size:36px}.share-card-example{max-width:300px}.share-card-globe{font-size:145px}.share-float-tag{right:0}}
+
+/* Collector edition stamp finish: perforations, fine-print and cancellation ink. */
+.collector-stamp-paper{
+  background:#faf7e9;
+  border:1px solid #ddd9c8;
+  outline:4px dotted #f5f4e9;
+  outline-offset:-4px;
+  box-shadow:0 17px 35px #18382d24,0 2px 4px #18382d1b;
+}
+.collector-stamp-frame{position:relative;overflow:hidden;border-width:3px;box-shadow:inset 0 0 0 4px #fff8e98c}
+.collector-stamp-frame:after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.23;
+  background-image:repeating-linear-gradient(0deg,transparent 0 2px,#4e604516 2px 3px),radial-gradient(circle at 15% 22%,#ffffffb8 0 1px,transparent 1.4px);
+  background-size:auto,12px 12px;mix-blend-mode:multiply
+}
+.collector-stamp-art{border:3px solid #ffffff9c;box-shadow:inset 0 0 0 1px #244b4155;filter:saturate(.88) contrast(1.08)}
+.collector-postmark{
+  position:absolute;right:7px;top:30%;z-index:2;transform:rotate(-16deg);
+  border:3px double #2d665d9e;border-radius:50%;width:91px;height:91px;
+  color:#275b539c;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:Georgia,serif;font-size:10px;letter-spacing:1px;line-height:1.25;
+  text-shadow:0 0 1px #e5ebde;background:#d7e4d115;pointer-events:none
+}
+.collector-postmark b{font-size:25px;font-weight:400}
+.collector-stamp:nth-child(3n+2) .collector-postmark{border-color:#925b5280;color:#925b52a1}
+.collector-stamp:nth-child(3n) .collector-postmark{border-color:#406d8380;color:#406d83a1}
+.collector-stamp-top{letter-spacing:1.4px}
+.collector-stamp-location{padding:13px 2px 10px}
+.collector-stamp-location strong{font-size:clamp(14px,1.3vw,19px);letter-spacing:.6px}
+.collector-stamp-caption strong{font-size:13px}
+.share-style-picker{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:15px 0 19px}
+.share-style-option{border:1px solid #cadcc7;border-radius:30px;padding:10px 13px;background:#f5f8f0;color:#315746;font-size:11px;font-weight:800}
+.share-style-option.active{background:#123d35;border-color:#123d35;color:#e2f8bd}
+.share-style-option:hover{border-color:#6ba77c}
+@media(max-width:470px){.collector-postmark{width:83px;height:83px;font-size:9px}.share-style-option{flex:1 1 100px;padding:10px 7px}}
+@media(prefers-reduced-motion:reduce){.collector-stamp:hover .collector-stamp-paper{transform:none}}
