@@ -331,3 +331,50 @@ body{background:var(--cream);color:var(--ink)}
   .feature-card.feature-medals .feature-medals{gap:7px}
   .feature-card.feature-medals .decor-medal{border-width:3px}
 }
+
+/* FIX: "feature-medals" is shared by the article and its medal row.
+   Scope flex/grid medal layout to the child only; keep the article a block card. */
+.feature-grid > article.feature-card.feature-medals{
+  display:block;
+  width:auto;
+  min-width:0;
+  max-width:100%;
+  align-items:initial;
+  justify-content:initial;
+  gap:initial;
+  margin-top:0;
+  overflow:hidden;
+}
+.feature-grid > article.feature-card.feature-medals > .feature-label{display:inline-block}
+.feature-grid > article.feature-card.feature-medals > h3{display:block}
+.feature-grid > article.feature-card.feature-medals > p{display:block;max-width:320px}
+.feature-grid > article.feature-card.feature-medals > div.feature-medals{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(8px,2vw,18px);
+  margin-top:36px;
+  width:100%;
+  max-width:100%;
+}
+.feature-grid > article.feature-card.feature-medals > div.feature-medals > .decor-medal{
+  flex:0 1 98px;
+  width:min(98px,30%);
+  height:auto;
+  aspect-ratio:1;
+  min-width:0;
+}
+@media(max-width:720px){
+  .feature-grid > article.feature-card.feature-medals > div.feature-medals{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:clamp(7px,2.5vw,14px);
+    margin-top:30px;
+  }
+  .feature-grid > article.feature-card.feature-medals > div.feature-medals > .decor-medal{
+    width:100%;
+    max-width:98px;
+    flex:none;
+    justify-self:center;
+  }
+}
