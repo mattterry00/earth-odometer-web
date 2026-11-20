@@ -21,7 +21,7 @@ const medalGoals = [
   {title: '5K', target: 5000 / 1609.344, mark: '5K'},
   {title: '10K', target: 10000 / 1609.344, mark: '10K'},
   {title: 'Half Marathon', target: 21097.5 / 1609.344, mark: '13.1'},
-  {title: 'Marathon Distance', target: 26.2, mark: '26.2'},
+  {title: 'Full Marathon', target: 26.2, mark: '26.2'},
   {title: '1,000 Miles', target: 1000, mark: '1K'},
   {title: 'Earth Lap', target: 24901, mark: '🌎'},
   {title: 'Double Earth Lap', target: 49802, mark: '2×'},
