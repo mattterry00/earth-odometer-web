@@ -693,3 +693,14 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
   .phone-frame .approved-preview-screen{height:690px;max-height:690px}
   .approved-preview-screen iframe{height:100%}
 }
+
+/* Keep App Store badge fully legible in the compact mobile header. */
+@media(max-width:720px){
+ .site-header .app-store-coming{min-width:0;max-width:145px;flex-shrink:0;gap:6px;padding:7px 8px}
+ .site-header .app-store-coming span{min-width:0}
+ .site-header .app-store-coming small{font-size:7px;letter-spacing:.45px;white-space:nowrap}
+ .site-header .app-store-coming strong{font-size:13px;white-space:nowrap}
+ .site-header .app-store-coming svg{width:17px;height:17px}
+ .site-header .header-actions{min-width:0;gap:8px}
+}
+@media(max-width:390px){.site-header .app-store-coming{max-width:129px;padding:6px}.site-header .app-store-coming strong{font-size:12px}}
