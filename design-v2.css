@@ -775,3 +775,7 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
  .share-art{min-height:430px}
  .share-card-globe img{max-height:190px}
 }
+
+/* Present the approved illustration on an intentional cream art panel, not a white image rectangle. */
+.share-card-globe img{mix-blend-mode:normal;background:#f8f3e5;border:7px solid #f8f3e5;box-shadow:0 12px 25px #031d1c52;max-height:225px}
+@media(max-width:720px){.share-card-globe img{max-height:175px;border-width:5px}}
