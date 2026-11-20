@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Journey passport</title>
+<link rel="stylesheet" href="book.css"><link rel="stylesheet" href="field-notes.css"></head><body><section class="book" aria-label="Virtual journey passport"><header class="binding"><b>✥　Journey passport</b><button id="index-toggle" aria-controls="stamp-index" aria-expanded="false">Stamp index</button></header><section class="leaf index-panel" id="stamp-index" hidden aria-label="Stamp index">
+<div class="folio"><span>Journey passport</span><b>Contents</b></div><h2>Stamp index</h2>
+<label for="stamp-search">Find a stamp</label><input id="stamp-search" type="search" placeholder="City, state, or journey">
+<label for="stamp-filter">Show</label><select id="stamp-filter"><option value="all">All stamps</option><option value="earned">Earned</option><option value="upcoming">Upcoming</option></select>
+<p id="match-count" aria-live="polite"></p><div id="stamp-results"></div></section><article class="leaf" id="leaf" tabindex="-1"></article></section><script src="field-notes.js"></script><script src="checkpoint-map.js"></script><script src="imprint.js"></script><script>
+const stops=[
+ {city:'Boston',state:'Massachusetts',mile:26.2,image:'atlas/stamp',completed:true},
+ {city:'Chicago',state:'Illinois',mile:0,image:'ChicagoStamp',end:0},
+ {city:'St. Louis',state:'Missouri',mile:300,image:'StLouisStamp',end:4},
+ {city:'Tulsa',state:'Oklahoma',mile:700,image:'TulsaStamp',end:8},
+ {city:'Oklahoma City',state:'Oklahoma',mile:940,image:'OklahomaStamp',end:10}
+];
+const distance=Math.max(0,Number(new URLSearchParams(location.search).get('mi')??842)||0);
+let page=0, detail=false;
+const leaf=document.querySelector('#leaf');
+const indexPanel=document.querySelector('#stamp-index');
+const toggle=document.querySelector('#index-toggle');
+const search=document.querySelector('#stamp-search');
+const filter=document.querySelector('#stamp-filter');
+const bookmarkKey='earth-odometer.passport.last-stamp';
+function stampKey(stop){return (stop.completed?'boston-marathon':'route66')+'/'+stop.city;}
+try{
+ const saved=sessionStorage.getItem(bookmarkKey);
+ const restored=stops.findIndex(s=>stampKey(s)===saved);
+ if(restored>=0)page=restored;
+}catch{ /* The book still works when storage is unavailable. */ }
+function showPage(next){
+ if(next<0||next>=stops.length)return;
+ const direction=next-page;
+ page=next;detail=false;
+ try{sessionStorage.setItem(bookmarkKey,stampKey(stops[page]));}catch{}
+ indexPanel.hidden=true;leaf.hidden=false;
+ toggle.textContent='Stamp index';toggle.setAttribute('aria-expanded','false');
+ draw(direction);leaf.focus({preventScroll:true});
+}
+function renderIndex(){
+ const needle=search.value.trim().toLowerCase().replaceAll('.','');
+ const results=document.querySelector('#stamp-results');
+ results.replaceChildren();
+ let group='',count=0;
+ stops.forEach((s,i)=>{
+  const journey=s.completed?'Virtual Boston Marathon':'Route 66';
+  const earned=s.completed||distance>=s.mile;
+  const words=(s.city+' '+s.state+' '+journey).toLowerCase().replaceAll('.','');
+  if(!words.includes(needle)||(filter.value==='earned'&&!earned)||(filter.value==='upcoming'&&earned))return;
+  if(group!==journey){
+   group=journey;
+   const title=document.createElement('h3');title.textContent=journey;results.append(title);
+  }
+  const row=document.createElement('button');row.type='button';row.dataset.page=i;
+  const state=s.completed?'Completed':!earned?'Upcoming':s.end?'Reached':'Started';
+  row.innerHTML=`<b>${s.city}</b><small>${state} · Page ${i+1}</small><span aria-hidden="true">›</span>`;
+  results.append(row);count++;
+ });
+ document.querySelector('#match-count').textContent=count?count+' matching '+(count===1?'stamp':'stamps'):'No matching stamps. Try another place or filter.';
+}
+toggle.onclick=()=>{
+ if(!indexPanel.hidden){showPage(page);return;}
+ leaf.hidden=true;indexPanel.hidden=false;renderIndex();
+ toggle.textContent='Back to page';toggle.setAttribute('aria-expanded','true');search.focus({preventScroll:true});
+};
+search.oninput=renderIndex;filter.onchange=renderIndex;
+indexPanel.onclick=e=>{const row=e.target.closest('[data-page]');if(row)showPage(Number(row.dataset.page));};
+
+function routeMap(s){
+ if(s.completed)return '<img class="boston-map" src="../assets/atlas/boston-map.jpg" alt="Illustrated Boston virtual route map">';
+ return '<div class="city-atlas"><img src="../assets/'+s.image+'.jpg" alt="'+s.city+' illustrated skyline">'+checkpointMap(s)+'</div>';
+}
+function draw(direction){
+ const s=stops[page],earned=s.completed||distance>=s.mile;
+ const number=String(page+1).padStart(2,'0');
+ const route=s.completed?'Journey 1 · Marathon finish':'Journey 2 · Route 66';
+ const label=s.completed?'View earned Boston stamp map':'View '+s.city+' route map';
+ const stamp=earned?`<button class="stamp" data-open aria-label="${label}">${passportImprint(s.city,'../assets/'+s.image+'.jpg',s.completed?'MARATHON FINISH':'US ROUTE 66')}</button>`:'<div class="lock"><small>Reserved impression</small><b>'+s.city+'</b></div>';
+ const mapLabel=s.completed?'Virtual Boston Marathon completed · 26.2 mi':(s.end?'From Chicago to '+s.city+' · Mile '+s.mile:'Chicago · Starting point of Route 66');
+ leaf.innerHTML=`<div class="folio"><span>${s.completed?'Journey completion stamp':earned?(s.end?'Earned checkpoint stamp':'Journey start stamp'):'Upcoming checkpoint stamp'}</span><b>Folio ${number}</b></div><div class="field-heading"><h2>${s.completed?'Virtual Boston Marathon':s.city}</h2>${inkMark(earned?(s.completed?"Completed":s.end?"Reached":"Started"):"")}</div><p class="caption">${s.state} · ${route}</p>`+
+ (detail?routeMap(s)+'<p class="map-copy">'+mapLabel+'</p><button class="action" data-close>← Back to stamp</button>':
+ '<div class="plate">'+stamp+'</div><p class="hint">'+(earned?(s.completed?'You completed 26.2 virtual miles. Next journey: Route 66, starting in Chicago.':s.end?'Earned at mile '+s.mile+' of Route 66.':'Mile zero of Route 66. From Chicago, the first destination stamp is St. Louis.'):Math.ceil(s.mile-distance)+' more Route 66 miles to earn this stamp')+(earned?' Tap for map.':'')+'</p>')+
+ fieldNote(s.city)+`<div class="registry">${s.completed?'COMPLETED · 02 NOV 2026':'CHECKPOINT '+String(page).padStart(2,'0')+'　/　MILE '+s.mile}</div>
+ <div class="folio-nav"><button data-step="-1" aria-label="Previous passport page" ${!page?'disabled':''}>‹</button><span aria-live="polite">Page ${page+1} of ${stops.length}</span><button data-step="1" aria-label="Next passport page" ${page===stops.length-1?'disabled':''}>›</button></div>`;
+ leaf.className='leaf';if(direction){void leaf.offsetWidth;leaf.classList.add(direction>0?'turn':'back')}
+}
+function turn(d){showPage(page+d)}
+leaf.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.step)turn(Number(b.dataset.step));else{detail=b.hasAttribute('data-open');draw();leaf.querySelector(detail?'[data-close]':'[data-open]')?.focus({preventScroll:true})}};
+let start;leaf.addEventListener('touchstart',e=>{start=e.touches[0]},{passive:true});leaf.addEventListener('touchend',e=>{if(!start)return;const dx=e.changedTouches[0].clientX-start.clientX,dy=e.changedTouches[0].clientY-start.clientY;if(Math.abs(dx)>55&&Math.abs(dx)>1.5*Math.abs(dy))turn(dx<0?1:-1);start=null});
+document.onkeydown=e=>{if(!indexPanel.hidden){if(e.key==='Escape')showPage(page);return}if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();turn(e.key==='ArrowRight'?1:-1)}};draw();
+</script></body></html>
