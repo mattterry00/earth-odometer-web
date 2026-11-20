@@ -272,3 +272,17 @@ body{background:var(--cream);color:var(--ink)}
 @keyframes travel-dashes{to{stroke-dashoffset:-120}}
 @keyframes destination-pulse{0%{transform:scale(.6);opacity:.4}65%{transform:scale(1.9);opacity:0}100%{transform:scale(1.9);opacity:0}}
 @media(prefers-reduced-motion:reduce){.globe-travel-routes .route-path,.globe-map-pin .pin-pulse{animation:none}}
+
+/* App Store launch call-to-action: clearly marked as unavailable until launch. */
+.header-actions{display:flex;align-items:center;gap:24px}
+.header-demo-link{font-size:12px;font-weight:800;color:#d7e9d7;white-space:nowrap}
+.header-demo-link span{color:#d6f49c;margin-left:5px}
+.header-demo-link:hover{color:#d6f49c}
+.app-store-coming{display:flex;align-items:center;gap:9px;padding:9px 17px 9px 13px;border:1px solid #d6f49c;background:#d6f49c;border-radius:12px;color:#14372c;white-space:nowrap;cursor:default;user-select:none}
+.app-store-coming svg{width:22px;height:22px;flex:none}
+.app-store-coming small{display:block;font-size:8px;letter-spacing:.9px;line-height:1.1;font-weight:800}
+.app-store-coming strong{display:block;font-family:var(--display);font-size:16px;line-height:1.15;letter-spacing:-.5px}
+.mobile-store-status{display:block;color:#d6f49c;font-size:12px;font-weight:800;padding:12px 0}
+@media(max-width:980px){.header-actions{gap:12px}.header-demo-link{display:none}.app-store-coming{padding:8px 11px}.app-store-coming strong{font-size:14px}}
+@media(max-width:720px){.header-actions{display:flex;margin-left:auto}.app-store-coming{padding:7px 10px;border-radius:9px}.app-store-coming svg{width:19px;height:19px}.app-store-coming small{font-size:7px}.app-store-coming strong{font-size:13px}.mobile-toggle{margin-left:2px}}
+@media(max-width:370px){.app-store-coming small{font-size:6px}.app-store-coming strong{font-size:12px}.app-store-coming{gap:6px;padding:6px 7px}}
