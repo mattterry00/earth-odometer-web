@@ -198,24 +198,49 @@
   // Sample share cards: generated locally, no upload or account required.
   const modal=$("share-modal"),canvas=$("share-canvas");
   const closeShare=()=>{modal.hidden=true;document.body.style.overflow="";};
+  let shareStyle="distance";
   function drawShare(){
-    const ctx=canvas.getContext("2d");
-    if(!ctx)return;
-    const w=canvas.width,h=canvas.height;
-    const bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,"#0b2d2e");bg.addColorStop(.55,"#1b5b50");bg.addColorStop(1,"#092324");
-    ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
-    ctx.strokeStyle="rgba(213,244,156,.15)";ctx.lineWidth=2;
-    for(let i=0;i<7;i++){ctx.beginPath();ctx.arc(w/2,490,180+i*40,0,Math.PI*2);ctx.stroke();}
-    ctx.fillStyle="#d6f49c";ctx.font="bold 36px Manrope, sans-serif";ctx.fillText("◎  EARTH ODOMETER",72,105);
-    ctx.fillStyle="#b4d2bd";ctx.font="bold 25px Manrope, sans-serif";ctx.fillText("MY JOURNEY SO FAR",72,170);
-    ctx.textAlign="center";ctx.fillStyle="#9fe0bb";ctx.font="340px Georgia, serif";ctx.fillText("◎",w/2,750);
-    ctx.fillStyle="#d6f49c";ctx.font="bold 26px Manrope, sans-serif";ctx.fillText("LIFETIME DISTANCE",w/2,895);
-    ctx.fillStyle="#fffef2";ctx.font="bold 92px Manrope, sans-serif";ctx.fillText(number(state.total)+" MI",w/2,1002);
-    ctx.fillStyle="#d6f49c";ctx.font="bold 31px Manrope, sans-serif";ctx.fillText(number(state.total/EARTH*100)+"% OF AN EARTH LAP",w/2,1072);
-    ctx.strokeStyle="rgba(214,244,156,.5)";ctx.beginPath();ctx.moveTo(72,1170);ctx.lineTo(w-72,1170);ctx.stroke();
-    ctx.font="bold 24px Manrope, sans-serif";ctx.fillStyle="#d6f49c";ctx.textAlign="left";ctx.fillText("EVERY MILE TELLS A STORY",72,1220);
-    ctx.textAlign="right";ctx.fillText("earthodometer.com",w-72,1220);
+    const ctx=canvas.getContext("2d");if(!ctx)return;
+    const palettes={distance:["#092d2c","#2c7560","#d6f49c"],journey:["#193f50","#4b8d99","#ffe2a3"],achievement:["#332f44","#776b91","#ffe0a0"]};
+    const p=palettes[shareStyle],bg=ctx.createLinearGradient(0,0,1080,1350);
+    bg.addColorStop(0,p[0]);bg.addColorStop(.56,p[1]);bg.addColorStop(1,p[0]);
+    ctx.fillStyle=bg;ctx.fillRect(0,0,1080,1350);
+    ctx.strokeStyle="rgba(255,255,255,.12)";ctx.lineWidth=2;
+    for(let i=0;i<7;i++){ctx.beginPath();ctx.arc(540,490,180+i*40,0,Math.PI*2);ctx.stroke();}
+    ctx.textAlign="left";ctx.fillStyle=p[2];ctx.font="bold 36px Manrope, sans-serif";ctx.fillText("◎  EARTH ODOMETER",72,105);
+    ctx.fillStyle="#e0e9de";ctx.font="bold 25px Manrope, sans-serif";ctx.fillText("A LIFE IN MOTION",72,170);
+    ctx.textAlign="center";
+    if(shareStyle==="distance"){
+      ctx.fillStyle=p[2];ctx.font="310px Georgia, serif";ctx.fillText("◎",540,740);
+      ctx.font="bold 26px Manrope, sans-serif";ctx.fillText("LIFETIME DISTANCE",540,890);
+      ctx.fillStyle="#ffffff";ctx.font="bold 90px Manrope, sans-serif";ctx.fillText(number(state.total)+" MI",540,998);
+      ctx.fillStyle=p[2];ctx.font="bold 30px Manrope, sans-serif";ctx.fillText(number(state.total/EARTH*100)+"% OF AN EARTH LAP",540,1075);
+    }else if(shareStyle==="journey"){
+      const completed=routes.find(r=>state.stamps.includes(r.id))||routes[0];
+      ctx.fillStyle=p[2];ctx.font="230px Georgia, serif";ctx.fillText("✦",540,735);
+      ctx.font="bold 27px Manrope, sans-serif";ctx.fillText("JOURNEY COMPLETED",540,850);
+      ctx.fillStyle="#ffffff";ctx.font="bold 57px Manrope, sans-serif";ctx.fillText(completed.name.toUpperCase().slice(0,24),540,946);
+      ctx.fillStyle=p[2];ctx.font="bold 29px Manrope, sans-serif";ctx.fillText(number(completed.distance)+" MILES OF ADVENTURE",540,1030);
+    }else{
+      const earned=medals.filter(m=>state.total>=m.miles);
+      const medal=earned[earned.length-1]||medals[0];
+      ctx.fillStyle=p[2];ctx.beginPath();ctx.arc(540,610,177,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fff7d2";ctx.lineWidth=13;ctx.stroke();
+      ctx.fillStyle=p[0];ctx.font="210px Georgia, serif";ctx.fillText("★",540,682);
+      ctx.fillStyle=p[2];ctx.font="bold 28px Manrope, sans-serif";ctx.fillText("MILESTONE UNLOCKED",540,887);
+      ctx.fillStyle="#ffffff";ctx.font="bold 70px Manrope, sans-serif";ctx.fillText(medal.name.toUpperCase(),540,984);
+      ctx.fillStyle=p[2];ctx.font="bold 29px Manrope, sans-serif";ctx.fillText(number(medal.miles)+" MILE ACHIEVEMENT",540,1052);
+    }
+    ctx.strokeStyle="rgba(255,255,255,.45)";ctx.beginPath();ctx.moveTo(72,1165);ctx.lineTo(1008,1165);ctx.stroke();
+    ctx.fillStyle=p[2];ctx.font="bold 24px Manrope, sans-serif";ctx.textAlign="left";ctx.fillText("EVERY MILE TELLS A STORY",72,1215);
+    ctx.textAlign="right";ctx.fillText("earthodometer.com",1008,1215);
+    ctx.textAlign="center";ctx.font="18px Manrope, sans-serif";ctx.fillStyle="#dce8dc";ctx.fillText("SAMPLE SHARE CARD · iPHONE APP COMING SOON",540,1300);
   }
+  document.querySelectorAll("[data-share-style]").forEach(button=>button.addEventListener("click",()=>{
+    shareStyle=button.dataset.shareStyle;
+    document.querySelectorAll("[data-share-style]").forEach(b=>{const active=b===button;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});
+    drawShare();
+  }));
   function openShare(){drawShare();modal.hidden=false;document.body.style.overflow="hidden";$("share-modal-close").focus();}
   $("share-preview-button").addEventListener("click",openShare);
   $("preview-share-trigger").addEventListener("click",openShare);
