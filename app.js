@@ -111,7 +111,7 @@
   function renderAchievements(){
     const unlocked=medals.filter(m=>state.total>=m.miles).length;
     $("medal-count").textContent=unlocked+" / "+medals.length+" unlocked";
-    $("medal-shelf").innerHTML=medals.map(m=>{const has=state.total>=m.miles;return '<div class="medal-item '+(has?"":"locked")+'"><div class="medal-disc"><span>'+m.icon+'</span><small>'+m.small+'</small></div><h5>'+m.name+'</h5><p>'+(has?"Unlocked":number(m.miles)+" mi to unlock")+'</p></div>';}).join("");
+    $("medal-shelf").innerHTML=medals.map(m=>{const has=state.total>=m.miles;return '<div class="medal-item '+(has?"":"locked")+'"><div class="medal-badge-web"><span class="medal-ribbon" aria-hidden="true"></span><div class="medal-disc"><span>'+m.icon+'</span><small>'+m.small+'</small></div></div><h5>'+m.name+'</h5><p>'+(has?"Unlocked":number(m.miles)+" mi to unlock")+'</p></div>';}).join("");
     $("stamp-count").textContent=state.stamps.length+" collected";
     const stamped=routes.filter(r=>state.stamps.includes(r.id));
     $("stamps-grid").innerHTML=(stamped.length?stamped:routes.slice(0,3)).map(r=>'<div class="stamp-item '+(state.stamps.includes(r.id)?"":"locked")+'"><span>'+r.emoji+'</span><strong>'+r.name+'</strong><small>'+(state.stamps.includes(r.id)?"JOURNEY COMPLETE":"NOT YET EARNED")+'</small></div>').join("");
