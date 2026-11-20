@@ -185,15 +185,47 @@
   menu.addEventListener("click",()=>{const open=menu.getAttribute("aria-expanded")!=="true";menu.setAttribute("aria-expanded",String(open));menu.setAttribute("aria-label",open?"Close navigation":"Open navigation");mobile.hidden=!open;});
   mobile.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mobile.hidden=true;menu.setAttribute("aria-expanded","false");menu.setAttribute("aria-label","Open navigation");}));
   $("footer-year").textContent=String(new Date().getFullYear());
-  const shelf=$("medal-shelf");let frame=false;
-  shelf.addEventListener("scroll",()=>{if(frame)return;frame=true;requestAnimationFrame(()=>{
-    const center=shelf.scrollLeft+shelf.clientWidth/2;
-    shelf.querySelectorAll(".medal-item").forEach(item=>{
-      const x=item.offsetLeft+item.offsetWidth/2;
-      const angle=Math.max(-4,Math.min(4,(x-center)/90));
-      item.style.transform="rotate("+angle.toFixed(1)+"deg)";
-    });frame=false;
-  });},{passive:true});
+  const shelf=$("medal-shelf");
+  // A mobile swipe scrolls the shelf and gently swings the hanging medals.
+  // Animate the ribbon/medallion, not the outer tile, to avoid CSS transform conflicts.
+  const motionReduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let swingFrame=0,previousScroll=shelf.scrollLeft,lastSwing=0;
+  function swingMedals(){
+    swingFrame=0;
+    if(motionReduced)return;
+    const delta=shelf.scrollLeft-previousScroll;
+    previousScroll=shelf.scrollLeft;
+    const now=performance.now();
+    if(Math.abs(delta)<.2||now-lastSwing<100)return;
+    lastSwing=now;
+    shelf.querySelectorAll(".medal-badge-web").forEach((badge,index)=>{
+      badge.classList.remove("swipe-swing");
+      // Restart the keyframe animation after each meaningful swipe.
+      void badge.offsetWidth;
+      badge.style.setProperty("--swing-direction",delta>0?"1":"-1");
+      badge.style.animationDelay=(index%4*45)+"ms";
+      badge.classList.add("swipe-swing");
+    });
+  }
+  shelf.addEventListener("scroll",()=>{
+    if(!swingFrame)swingFrame=requestAnimationFrame(swingMedals);
+  },{passive:true});
+  shelf.addEventListener("touchstart",()=>{previousScroll=shelf.scrollLeft;},{passive:true});
+  shelf.addEventListener("animationend",event=>{
+    if(event.target.classList&&event.target.classList.contains("medal-badge-web")){
+      event.target.classList.remove("swipe-swing");
+    }
+  });
+  // Tapping an individual medal also swings it on touch devices.
+  shelf.addEventListener("click",event=>{
+    const badge=event.target.closest(".medal-item")?.querySelector(".medal-badge-web");
+    if(!badge||motionReduced)return;
+    badge.classList.remove("swipe-swing");
+    void badge.offsetWidth;
+    badge.style.animationDelay="0ms";
+    badge.style.setProperty("--swing-direction","1");
+    badge.classList.add("swipe-swing");
+  });
 
   // Sample share cards: generated locally, no upload or account required.
   const modal=$("share-modal"),canvas=$("share-canvas");
