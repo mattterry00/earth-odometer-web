@@ -286,3 +286,18 @@ body{background:var(--cream);color:var(--ink)}
 @media(max-width:980px){.header-actions{gap:12px}.header-demo-link{display:none}.app-store-coming{padding:8px 11px}.app-store-coming strong{font-size:14px}}
 @media(max-width:720px){.header-actions{display:flex;margin-left:auto}.app-store-coming{padding:7px 10px;border-radius:9px}.app-store-coming svg{width:19px;height:19px}.app-store-coming small{font-size:7px}.app-store-coming strong{font-size:13px}.mobile-toggle{margin-left:2px}}
 @media(max-width:370px){.app-store-coming small{font-size:6px}.app-store-coming strong{font-size:12px}.app-store-coming{gap:6px;padding:6px 7px}}
+
+/* Hero App Store call-to-action: primary launch destination and demo secondary. */
+.hero-actions{align-items:center;gap:13px}
+.hero-store-cta{display:inline-flex;gap:11px;background:#d6f49c;color:#14372c;border:1px solid #d6f49c;border-radius:13px;padding:9px 18px 9px 14px;min-height:58px;cursor:default;user-select:none;box-shadow:0 10px 30px #d6f49c18}
+.hero-store-cta:hover{transform:none;background:#d6f49c}
+.hero-store-cta svg{width:25px;height:25px;flex:none}
+.hero-store-cta span{display:flex;flex-direction:column;align-items:start;gap:2px}
+.hero-store-cta small{font-size:8px;letter-spacing:1px;font-weight:800;line-height:1.1}
+.hero-store-cta strong{font-family:var(--display);font-size:20px;line-height:1.1;letter-spacing:-.5px}
+.hero-how-link{color:#bed3c5;font-size:12px;font-weight:700;white-space:nowrap}
+.hero-how-link span{margin-left:5px;color:#d6f49c}
+.hero-how-link:hover{color:#d6f49c}
+@media(max-width:1100px){.hero-actions{gap:10px}.hero-store-cta{padding:9px 13px}.hero-how-link{display:none}}
+@media(max-width:720px){.hero-actions{flex-direction:row;align-items:stretch;flex-wrap:wrap}.hero-actions .button{flex:1;min-width:210px}.hero-store-cta{justify-content:center}.hero-how-link{display:inline-flex;align-items:center;justify-content:center;padding:12px 6px}}
+@media(max-width:430px){.hero-actions{flex-direction:column}.hero-actions .button{width:100%;min-width:0;flex:auto}.hero-how-link{justify-content:center}}
