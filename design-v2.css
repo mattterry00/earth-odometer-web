@@ -784,3 +784,20 @@ main,.site-header,.site-footer{max-width:100%;min-width:0}
 .share-card-globe-geometric{color:#d6f49c;min-height:0;padding:8px 0;filter:drop-shadow(0 0 22px #d6f49c30)}
 .share-card-globe-geometric svg{display:block;width:min(84%,265px);height:auto;max-height:100%;overflow:visible}
 @media(max-width:720px){.share-card-globe-geometric svg{width:min(80%,210px)}}
+
+a.app-store-coming,a.hero-store-cta{cursor:pointer;text-decoration:none}
+.walkthrough{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.35fr);align-items:center;gap:clamp(24px,5vw,76px);margin-top:clamp(40px,7vw,90px);scroll-margin-top:96px}
+.walkthrough h3,.watch-section h2{font-family:var(--display);letter-spacing:-.045em;line-height:1.08}
+.walkthrough h3{font-size:clamp(30px,4vw,54px);margin:0 0 16px}
+.walkthrough p,.watch-steps p,.watch-lede{line-height:1.7}
+.walkthrough video{display:block;width:100%;aspect-ratio:16/9;background:#102f2d;border-radius:16px}
+.watch-section{background:#112f2c;color:#f3f6e9}
+.watch-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,7vw,98px);align-items:start}
+.watch-section h2{font-size:clamp(40px,5.2vw,76px);margin:18px 0}
+.watch-section .section-kicker{color:#d6f49c}
+.watch-lede,.watch-steps p{color:#d4e2d8}
+.watch-steps{padding-left:1.5rem;margin:0}
+.watch-steps li{padding:.8rem 0 .8rem .45rem;border-bottom:1px solid #527165}
+.watch-steps li::marker{color:#d6f49c;font-weight:bold}
+.watch-steps p{margin:5px 0}
+@media(max-width:760px){.walkthrough,.watch-layout{grid-template-columns:1fr}.walkthrough{gap:16px}}

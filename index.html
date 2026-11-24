@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="design-v2.css?v=21">
+  <link rel="stylesheet" href="design-v2.css?v=22">
   <script src="site-v3.js?v=4" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://earthodometer.com/">
@@ -26,12 +26,12 @@
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Earth Odometer home"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="2"/><ellipse cx="20" cy="20" rx="7" ry="16" stroke="currentColor" stroke-width="1.6"/><path d="M4 20h32M8 11h24M8 29h24" stroke="currentColor" stroke-width="1.6"/></svg></span><span>earth<span class="brand-accent">odometer</span><span class="brand-dot">.</span></span></a>
       <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="#how">How it works</a><a href="#features">Features</a><a href="#share">Sharing</a><a href="#pricing">Pricing</a>
+        <a href="#how">How it works</a><a href="#features">Features</a><a href="#share">Sharing</a><a href="#watch">Apple Watch</a>
       </nav>
-      <div class="header-actions"><a class="header-demo-link" href="#demo">Try the demo <span aria-hidden="true">↗</span></a><span class="app-store-coming" aria-label="Earth Odometer is coming soon to the Apple App Store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.1 12.5c0-2.1 1.7-3.1 1.8-3.2-1-1.5-2.5-1.7-3.1-1.7-1.3-.2-2.5.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.4 0-2.7.8-3.4 2-1.5 2.5-.4 6.2 1.1 8.2.8 1 1.6 2.1 2.7 2.1 1.1 0 1.5-.7 2.8-.7 1.3 0 1.7.7 2.8.7 1.2 0 1.9-1.1 2.6-2.1.8-1.1 1.1-2.1 1.2-2.2-2.5-.9-2.5-3.2-2.5-3.2zM14.8 6.3c.6-.8 1-1.8.9-2.8-1 0-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.7 1.1.1 2.2-.6 2.9-1.4z"/></svg><span><small>COMING SOON</small><strong>App Store</strong></span></span></div>
+      <div class="header-actions"><a class="header-demo-link" href="#demo">Try the demo <span aria-hidden="true">↗</span></a><a class="app-store-coming" href="#launch" data-store-link aria-label="Get an App Store launch notification"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.1 12.5c0-2.1 1.7-3.1 1.8-3.2-1-1.5-2.5-1.7-3.1-1.7-1.3-.2-2.5.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.4 0-2.7.8-3.4 2-1.5 2.5-.4 6.2 1.1 8.2.8 1 1.6 2.1 2.7 2.1 1.1 0 1.5-.7 2.8-.7 1.3 0 1.7.7 2.8.7 1.2 0 1.9-1.1 2.6-2.1.8-1.1 1.1-2.1 1.2-2.2-2.5-.9-2.5-3.2-2.5-3.2zM14.8 6.3c.6-.8 1-1.8.9-2.8-1 0-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.7 1.1.1 2.2-.6 2.9-1.4z"/></svg><span><small>COMING SOON</small><strong>App Store</strong></span></a></div>
       <button class="mobile-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span><span></span></button>
     </div>
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><a href="#how">How it works</a><a href="#features">Features</a><a href="#share">Sharing</a><a href="#pricing">Pricing</a><a href="#demo">Try the demo</a><a href="#launch">Launch updates</a><span class="mobile-store-status"> Coming soon to the App Store</span></nav>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><a href="#how">How it works</a><a href="#features">Features</a><a href="#share">Sharing</a><a href="#watch">Apple Watch</a><a href="#demo">Try the demo</a><a href="#launch">Launch updates</a><a class="mobile-store-status" href="#launch" data-store-link>App Store launch</a></nav>
   </header>
 
   <main id="main">
@@ -41,9 +41,9 @@
         <div class="hero-copy">
           <div class="eyebrow"><span class="status-pulse"></span> YOUR LIFE. MEASURED IN MILES. <span class="eyebrow-arrow">↗</span></div>
           <h1>You've been<br>going places.<br><span class="gradient-text">See how far.</span></h1>
-          <p class="hero-description">Every walk, drive, flight, and detour adds up. Earth Odometer turns the distance you travel into one extraordinary story.</p>
-          <div class="hero-actions"><span class="button hero-store-cta" aria-label="Earth Odometer is coming soon to the Apple App Store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.1 12.5c0-2.1 1.7-3.1 1.8-3.2-1-1.5-2.5-1.7-3.1-1.7-1.3-.2-2.5.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.4 0-2.7.8-3.4 2-1.5 2.5-.4 6.2 1.1 8.2.8 1 1.6 2.1 2.7 2.1 1.1 0 1.5-.7 2.8-.7 1.3 0 1.7.7 2.8.7 1.2 0 1.9-1.1 2.6-2.1.8-1.1-2.1 1.2-2.2-2.5-.9-2.5-3.2-2.5-3.2zM14.8 6.3c.6-.8 1-1.8.9-2.8-1 0-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.7 1.1.1 2.2-.6 2.9-1.4z"/></svg><span><small>COMING SOON TO THE</small><strong>App Store</strong></span></span><a href="#demo" class="button button-outline">Try the interactive demo <span aria-hidden="true">↗</span></a><a href="#how" class="hero-how-link">How it works <span aria-hidden="true">↓</span></a></div>
-          <div class="hero-trust"><span><span class="check">✓</span> No start / stop</span><span><span class="check">✓</span> Private by design</span><span><span class="check">✓</span> Made for everyday life</span></div>
+          <p class="hero-description">See how far your everyday walks, runs, and drives take you. Follow a virtual route and collect a stamp when you reach its next stop.</p>
+          <div class="hero-actions"><a class="button hero-store-cta" href="#launch" data-store-link aria-label="Get an App Store launch notification"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.1 12.5c0-2.1 1.7-3.1 1.8-3.2-1-1.5-2.5-1.7-3.1-1.7-1.3-.2-2.5.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.4 0-2.7.8-3.4 2-1.5 2.5-.4 6.2 1.1 8.2.8 1 1.6 2.1 2.7 2.1 1.1 0 1.5-.7 2.8-.7 1.3 0 1.7.7 2.8.7 1.2 0 1.9-1.1 2.6-2.1.8-1.1-2.1 1.2-2.2-2.5-.9-2.5-3.2-2.5-3.2zM14.8 6.3c.6-.8 1-1.8.9-2.8-1 0-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.7 1.1.1 2.2-.6 2.9-1.4z"/></svg><span><small>COMING SOON TO THE</small><strong>App Store</strong></span></a><a href="#walkthrough" class="button button-outline">Watch the walkthrough <span aria-hidden="true">↗</span></a><a href="#how" class="hero-how-link">How it works <span aria-hidden="true">↓</span></a></div>
+          <div class="hero-trust"><span><span class="check">✓</span> Automatic iPhone tracking</span><span><span class="check">✓</span> Private by design</span><span><span class="check">✓</span> Made for everyday life</span></div>
         </div>
         <div class="hero-art" aria-label="Illustration of a globe with travel progress">
           <div class="orbit orbit-outer"></div><div class="orbit orbit-middle"></div><div class="orbit orbit-inner"></div>
@@ -103,13 +103,20 @@
     </div></section>
 
     <section class="section how-section" id="how"><div class="container">
-      <div class="section-heading center"><span class="section-kicker">THE IDEA</span><h2>Life moves fast.<br><span class="muted-heading">Now you can see how far.</span></h2><p>Not another fitness tracker. A bigger picture of the places life takes you.</p></div>
+      <div class="section-heading center"><h2>Start with your next mile.</h2><p>Set up tracking once on your iPhone. Then pick where you want your miles to take you.</p></div>
       <div class="steps-grid">
-        <article class="step-card"><span class="step-number">01 /</span><div class="step-icon">◉</div><h3>Live your life</h3><p>Walk the dog. Drive to work. Fly across the world. No workouts to start or trips to log.</p></article>
-        <article class="step-card"><span class="step-number">02 /</span><div class="step-icon">⌁</div><h3>Watch miles add up</h3><p>See your recorded distance grow over time, with a breakdown of how you traveled.</p></article>
-        <article class="step-card"><span class="step-number">03 /</span><div class="step-icon">✦</div><h3>Go somewhere new</h3><p>Turn distance into virtual journeys, unlock milestones, and collect memories along the way.</p></article>
+        <article class="step-card"><h3>Turn on tracking</h3><p>In Profile, open Tracking &amp; permissions. Enable automatic walking or drive tracking and allow the permissions for each. For background drives, choose Always and Precise Location.</p></article>
+        <article class="step-card"><h3>Choose your journeys</h3><p>Open Journeys and pick an On Foot route and a By Road route. Tap Start on each. You can follow both at once, or simply keep adding to your lifetime miles.</p></article>
+        <article class="step-card"><h3>Find your first stamp</h3><p>Walk a mile and your on-foot journey advances. Drive a mile and your road journey advances. Check Passport for route stamps and Medals for lifetime milestones.</p></article>
       </div>
-      <p class="section-footnote">Planned iPhone functionality. Automatic tracking and transportation detection are under development and require device permissions and real-world validation.</p>
+      <div class="walkthrough" id="walkthrough">
+        <div class="walkthrough-copy"><h3>Your first outing, start to finish.</h3><p>Follow a drive to the trail, a walk, and the drive home. See how to set up your iPhone, start an outing on your Watch, and check your miles afterward.</p></div>
+        <video controls playsinline preload="none" poster="media/earth-odometer-guide.jpg" aria-label="How to use Earth Odometer on iPhone and Apple Watch">
+          <source src="media/earth-odometer-guide.mp4" type="video/mp4">
+          <track kind="captions" srclang="en" label="English" src="media/earth-odometer-guide.vtt">
+          <a href="media/earth-odometer-guide.mp4">Open the explainer video</a>
+        </video>
+      </div>
     </div></section>
 
     <section class="section features-section" id="features"><div class="container">
@@ -126,7 +133,7 @@
 
     <section class="section demo-section" id="demo">
       <div class="container">
-        <div class="section-heading center demo-intro"><span class="section-kicker">TAKE IT FOR A SPIN</span><h2>See your world<br><span class="muted-heading">add up.</span></h2><p>Explore the approved iPhone app design, including Home, Journeys, Passport, Medals, History, and Profile.</p></div>
+        <div class="section-heading center demo-intro"><span class="section-kicker">TAKE IT FOR A SPIN</span><h2>See your world<br><span class="muted-heading">add up.</span></h2><p>Explore the iPhone interface, including Home, Journeys, Passport, Medals, History, and Profile.</p></div>
         <div class="demo-notice" role="note"><span class="demo-notice-dot"></span><strong>INTERACTIVE iPHONE PREVIEW</strong><span>The approved iPhone design, running with sample data. This is not a separate web dashboard.</span></div>
         <div class="iphone-preview-stage"><div class="phone-stage-caption"><span>DESIGNED FOR iPHONE</span><h3>Your whole world.<br>In your pocket.</h3><p>Explore the approved iPhone design, including its journeys, passport, medals, history, profile, and sample data. The website is a preview—not a web dashboard.</p><div class="phone-stage-points"><span>✓ Lifetime distance</span><span>✓ Virtual journeys</span><span>✓ Shareable milestones</span></div><button type="button" class="button button-outline-dark" id="preview-share-trigger">Preview a share card ↗</button></div><div class="phone-frame"><div class="phone-top"><span>9:41</span><span class="dynamic-island"></span><span>▮▮ ◕ ▰</span></div><div class="phone-screen approved-preview-screen"><iframe title="Earth Odometer approved iPhone app interactive preview" src="iphone-preview/index.html?v=10" loading="eager" allow="clipboard-write"></iframe></div></div></div>
         <div class="demo-after"><span>✳</span> Your real odometer starts when the native iPhone app is ready. This website is a concept preview—not a tracking service.</div>
@@ -159,15 +166,21 @@
  <div class="share-modal-actions"><button type="button" id="copy-share" class="button button-outline-dark">Copy sample text</button></div>
  <p>Preview only · Sample data · Images cannot be downloaded directly. iPhone sharing is planned.</p>
  </div></div>
-<section class="section pricing-section" id="pricing"><div class="container"><div class="section-heading center"><span class="section-kicker">SIMPLE BY DESIGN</span><h2>Go far.<br><span class="muted-heading">Stay curious.</span></h2><p>Planned pricing for the iPhone app. Subscriptions and purchases are not available on this website.</p></div><div class="pricing-grid"><div class="price-card"><div class="price-top"><span>FREE</span><span>THE STARTING LINE</span></div><h3>$0 <small>/ forever</small></h3><p>Start seeing how far life takes you.</p><ul><li>Lifetime distance dashboard</li><li>Earth and Moon progress</li><li>Core travel breakdown</li><li>3 short virtual routes</li></ul><a href="#demo" class="button button-outline-dark">Explore the demo ↗</a></div><div class="price-card featured-price"><div class="price-top"><span>EARTH PLUS</span><span class="price-popular">PLANNED</span></div><h3>$1.99 <small>/ month</small></h3><p>More routes. More reasons to keep going.</p><ul><li>Everything in Free</li><li>12 longer preset journeys</li><li>Seasonal challenges</li><li>New virtual routes over time</li></ul><a href="#demo" class="button button-primary">Explore the iPhone preview ↗</a></div></div></div></section>
+<section class="section watch-section" id="watch"><div class="container watch-layout">
+      <div><p class="section-kicker">APPLE WATCH PREVIEW</p><h2>Leave your phone.<br>Bring your miles.</h2><p class="watch-lede">Heading out with just your Watch? Start an outing before you pull away. Keep it running through the drive, the walk, and the ride home.</p></div>
+      <ol class="watch-steps">
+        <li><strong>Connect Apple Health on iPhone.</strong><p>Enable Automatic walking and Use Apple Health distance. Allow access to Walking + Running Distance so watch-only walks can count.</p></li>
+        <li><strong>Tap Start outing on your Watch.</strong><p>Allow precise location for road miles. Add Start outing to your watch face for one-tap access, or set an Outing reminder for a time you choose.</p></li>
+        <li><strong>End the outing when you get home.</strong><p>Reconnect the Watch and open Earth Odometer on your iPhone. Check both journeys. A 20-mile round trip and a 3-mile walk should add 23 miles to your lifetime total.</p></li>
+      </ol></div></section>
 
     <section class="section trust-section" id="privacy"><div class="container trust-inner">
  <div><span class="section-kicker">YOUR JOURNEY, YOUR DATA</span><h2>Private by design.<br><span class="muted-heading">Clear from day one.</span></h2></div>
  <div><p>Earth Odometer is being designed to keep recorded travel data on your iPhone, with optional iCloud syncing. Automatic distance tracking will require your permission. The app is still in development, and its final privacy disclosures will be published before launch.</p>
  <p><strong>What about miles before you install it?</strong> The app won't know your entire lifetime of travel automatically. Tracking starts when you begin using it; any historical import capability will be explained separately if supported.</p></div>
  </div></section>
- <section class="section launch-section" id="launch"><div class="container launch-inner"><div><span class="section-kicker">COMING TO iPHONE</span><h2>Be first to go places.</h2><p>Get an email when Earth Odometer is ready. No app account or payment needed to join the launch list.</p></div><a class="button button-primary" href="https://form.jotform.com/263228212239049" target="_blank" rel="noopener noreferrer">Notify me at launch ↗</a></div></section>
-<section class="closing-cta section-dark"><div class="container closing-inner"><span class="section-kicker">YOUR STORY IS ALREADY IN MOTION</span><h2>The world is big.<br><span class="gradient-text">Your miles are adding up.</span></h2><p>One day, you'll look back and see just how far you've come.</p><a href="#demo" class="button button-primary">Explore Earth Odometer <span aria-hidden="true">↗</span></a><div class="closing-orbit" aria-hidden="true"></div></div></section>
+ <section class="section launch-section" id="launch"><div class="container launch-inner"><div><span class="section-kicker">COMING TO iPHONE</span><h2>Get Earth Odometer on the App Store.</h2><p>Earth Odometer is in private testing. Get an email when the public App Store download is ready.</p></div><a class="button button-primary" href="https://form.jotform.com/263228212239049" target="_blank" rel="noopener noreferrer">Notify me at App Store launch ↗</a></div></section>
+
   </main>
   <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="#top"><span class="brand-icon" aria-hidden="true">◎</span><span>earth<span class="brand-accent">odometer</span><span class="brand-dot">.</span></span></a><p>Made for the journey, not just the destination.</p><span>© <span id="footer-year">2026</span> Earth Odometer · Concept preview · <a href="#privacy">Privacy approach</a></span></div></footer>
 </body>
