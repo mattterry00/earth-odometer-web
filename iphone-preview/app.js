@@ -37,6 +37,8 @@ const medalGoals = [
   {title: '1,000 Miles', target: 1000, mark: '1K'},
   {title: '5,000 Miles', target: 5000, mark: '5K'},
   {title: '10,000 Miles', target: 10000, mark: '10K'},
+  {title: '15,000 Miles', target: 15000, mark: '15K'},
+  {title: '20,000 Miles', target: 20000, mark: '20K'},
   {title: 'Earth Lap', target: 24901, mark: '🌎'},
   {title: '25,000 Miles', target: 25000, mark: '25K'},
   {title: 'Double Earth Lap', target: 49802, mark: '2×'},
