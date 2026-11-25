@@ -16,6 +16,19 @@ const cityInsets = {
   park:'M83 61 Q116 79 150 123 L137 139 110 112 72 70Z',angle:26,
   road:'M320 69 Q287 72 265 63 T216 57 Q191 60 182 76 T161 92 Q141 94 129 105 L103 121',point:[182,76],label:'Arkansas River',labelPos:[67,119]
  },
+ Amarillo:{
+  park:'M48 92h66v29H48Z',angle:-6,
+  road:'M350 47 L265 55 L178 65 L96 74 L12 84',point:[178,65],label:'Sixth Street',labelPos:[111,92]
+ },
+ Albuquerque:{
+  water:'M76 -8 Q105 35 83 72 T80 153 H94 Q83 113 98 78 T87 -8Z',
+  park:'M68 0 Q95 40 74 75 T71 145 H63 Q51 108 65 72 T59 0Z',angle:2,
+  road:'M345 51 L267 60 L184 68 L118 76 L41 82',point:[184,68],label:'Rio Grande',labelPos:[57,130]
+ },
+ Flagstaff:{
+  park:'M-4 -4H176L134 17 98 15 72 38 41 29 12 46Z',angle:-16,
+  road:'M343 50 L276 68 L196 83 L134 88 L67 109 L18 125',point:[196,83],label:'Railroad Addition',labelPos:[216,113]
+ },
  'Oklahoma City':{
   water:'M-8 112 Q34 86 76 102 T151 104 Q176 96 203 107 T279 96 Q313 78 368 96 V117 Q320 97 284 116 T203 125 Q178 115 149 122 T71 122 Q34 108 -8 135Z',
   park:'M151 95 178 81 209 91 228 103 205 108 174 99Z',angle:4,
@@ -31,7 +44,7 @@ function checkpointMap(stop){
  <defs><pattern id="${id}-blocks" width="42" height="31" patternUnits="userSpaceOnUse" patternTransform="rotate(${m.angle})"><rect width="42" height="31" fill="#eee9d8"/><rect x="2" y="3" width="13" height="10" rx="1" fill="#dedbc8"/><rect x="19" y="3" width="19" height="19" fill="#e5ddca"/><path d="M0 0V31 M0 0H42 M17 0V31 M0 16H17" stroke="#fffaf0" fill="none" stroke-width="3"/></pattern>
  <filter id="${id}-shadow" x="-60%" y="-60%" width="220%" height="240%"><feDropShadow dx="0" dy="1.5" stdDeviation="1.6" flood-opacity=".35"/></filter></defs>
  <rect width="360" height="145" fill="url(#${id}-blocks)"/><path d="M-15 99 Q74 72 93 23 T173 -9 M0 124 Q97 78 169 88 T375 25" fill="none" stroke="#fffaf0" stroke-width="5"/>
- <path d="${m.park}" fill="#c8d8a8"/><path d="${m.water}" fill="#add9de" stroke="#d5e9e5" stroke-width="2"/>
+ <path d="${m.park}" fill="#c8d8a8"/><path d="${m.water||''}" fill="#add9de" stroke="#d5e9e5" stroke-width="2"/>
  ${m.river?`<path d="${m.river}" fill="none" stroke="#add9de" stroke-width="9"/>`:''}
  <text x="${m.labelPos[0]}" y="${m.labelPos[1]}" fill="#517e83" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="9">${m.label}</text>
  <path d="${m.road}" fill="none" stroke="#fff9e6" stroke-width="8"/><path d="${m.road}" fill="none" stroke="#6c9b98" stroke-width="4" stroke-dasharray="6 5" stroke-linecap="round"/>${route}
