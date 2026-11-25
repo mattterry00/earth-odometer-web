@@ -204,7 +204,8 @@ async function share(kind='today',format='story',mode='All modes') {
    rows:selected?null:rows.map(([name,n])=>[name,milesText(n)]),detail:'Total '+(year?'this year':'today')+'  ·  '+value+' '+preferences.units});
  }
  drawTravelCard(c,card,art);
- c.setAttribute('aria-label',[card.status,card.title,card.value,card.detail].filter(Boolean).join(' · '));
+ const cardName=kind.startsWith('medal-')?medal.title+' medal share card':(rows?(year?'This year':'Today'):card.title)+' illustrated share card';
+ c.setAttribute('aria-label',[cardName,card.status,card.value,card.detail,...(card.rows||[]).map(row=>row.join(' '))].filter(Boolean).join(' · '));
  const url=c.toDataURL('image/png'),fileName='earth-odometer-'+kind+(selected?'-'+mode.toLowerCase().replaceAll(' ','-'):'')+'-'+format+'.png';
  const preview = new Image();
  preview.id = 'mile-card';
