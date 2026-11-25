@@ -7,10 +7,19 @@
  let shareStyle="distance";
  const modal=$("share-modal"),canvas=$("share-canvas"),ctx=canvas?.getContext("2d");
  const iframe=document.querySelector(".approved-preview-screen iframe");
- const imageSources={globe:"iphone-preview/assets/atlas/globe.jpg",map:"iphone-preview/assets/RouteMap.jpg",medals:"iphone-preview/assets/atlas/cabinet.jpg"};
- const images={};
- Object.entries(imageSources).forEach(([name,src])=>{
-   const img=new Image();images[name]=img;img.onload=()=>{if(modal&&!modal.hidden)drawShare()};img.src=src;
+ const images=new Map();
+ function artwork(path){
+   if(!images.has(path)){
+     const img=new Image();
+     images.set(path,img);
+     img.onload=refreshStats;
+     img.src="iphone-preview/assets/"+path;
+   }
+   const img=images.get(path);
+   return img.complete&&img.naturalWidth?img:null;
+ }
+ document.querySelectorAll("[data-stamp-city]").forEach(el=>{
+   el.innerHTML=passportImprint(el.dataset.stampCity,el.dataset.stampArt);
  });
  const menu=$("menu-toggle"),mobile=$("mobile-nav");
  menu?.addEventListener("click",()=>{
@@ -23,8 +32,7 @@
  }));
  if($("footer-year"))$("footer-year").textContent=String(new Date().getFullYear());
  function refreshStats(){
-   const el=$("share-hero-miles");if(el)el.textContent=fmt(sample.miles);
-   const pct=$("share-hero-progress");if(pct)pct.textContent=fmt(sample.miles/EARTH*100,1)+"% AROUND THE EARTH";
+   drawExample($("lifetime-example"),"distance");
    if(modal&&!modal.hidden)drawShare();
  }
  window.addEventListener("message",event=>{
@@ -35,81 +43,30 @@
    refreshStats();
  });
  iframe?.addEventListener("load",()=>iframe.contentWindow?.postMessage({type:"earth-odometer-request-state"},location.origin));
- const colors={forest:"#0b2c2c",forest2:"#165b54",teal:"#1c7771",mint:"#d6f49c",cream:"#f8f3e5",gold:"#cbb48b",ink:"#133d3a",light:"#ffffff"};
- function rounded(x,y,w,h,r,fill,stroke=null){
-   ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=3;ctx.stroke()}
- }
- function text(str,x,y,size=30,color=colors.cream,weight="700",font="Manrope, Arial, sans-serif",align="left",max=900){
-   ctx.textAlign=align;ctx.fillStyle=color;ctx.font=weight+" "+size+"px "+font;ctx.fillText(String(str),x,y,max);
- }
- function drawCover(img,x,y,w,h){
-   if(!img?.complete||!img.naturalWidth)return false;
-   const ratio=Math.max(w/img.naturalWidth,h/img.naturalHeight),iw=w/ratio,ih=h/ratio;
-   ctx.save();ctx.beginPath();ctx.roundRect(x,y,w,h,16);ctx.clip();
-   ctx.drawImage(img,(img.naturalWidth-iw)/2,(img.naturalHeight-ih)/2,iw,ih,x,y,w,h);ctx.restore();return true;
- }
- function drawBackground(){
-   const grad=ctx.createLinearGradient(0,0,1080,1350);
-   grad.addColorStop(0,colors.forest);grad.addColorStop(.64,colors.forest2);grad.addColorStop(1,colors.forest);
-   ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1350);
-   ctx.strokeStyle="#d6f49c1c";ctx.lineWidth=2;
-   for(let i=0;i<7;i++){ctx.beginPath();ctx.ellipse(790,590,250+i*62,250+i*62,0,0,Math.PI*2);ctx.stroke()}
-   text("◎  EARTH ODOMETER",70,108,34,colors.mint,"800");
-   text("A LIFE IN MOTION",70,163,22,"#d6f49cbd","700");
-   ctx.strokeStyle="#d6f49c66";ctx.beginPath();ctx.moveTo(70,196);ctx.lineTo(1010,196);ctx.stroke();
-   rounded(68,1160,944,3,1,"#d6f49c65");
-   text("EVERY MILE TELLS A STORY",70,1222,23,colors.mint,"800");
-   text("earthodometer.com",1010,1222,23,colors.mint,"700","Manrope, Arial, sans-serif","right");
-   text("SAMPLE PREVIEW · iPHONE APP COMING SOON",540,1300,17,"#e1e9d6","600","Manrope, Arial, sans-serif","center");
- }
- function drawGeometricGlobe(){
-   const cx=540,cy=525,r=228;
-   ctx.save();
-   ctx.strokeStyle=colors.mint;ctx.lineWidth=5;ctx.globalAlpha=.96;
-   ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
-   ctx.lineWidth=3.6;
-   ctx.beginPath();ctx.ellipse(cx,cy,r*.43,r,0,0,Math.PI*2);ctx.stroke();
-   ctx.beginPath();ctx.ellipse(cx,cy,r*.78,r,0,0,Math.PI*2);ctx.stroke();
-   ctx.save();ctx.beginPath();ctx.arc(cx,cy,r-1,0,Math.PI*2);ctx.clip();
-   for(const y of [-.55,0,.55]){
-     ctx.beginPath();ctx.moveTo(cx-r,cy+r*y);ctx.lineTo(cx+r,cy+r*y);ctx.stroke();
-   }
-   ctx.translate(cx-r,cy-r);ctx.scale(2*r/240,2*r/240);
-   ctx.fillStyle=colors.mint;ctx.globalAlpha=.22;
-   const shapes=[
-     "M50 82l30-27 27 11 9 27-18 15-4 26-26 9-17-20z",
-     "M137 55l30-14 29 22-4 26-21 10-7 27-27-13-12-32z",
-     "M143 145l28-1 18 24-12 25-29-7-15-23z"
-   ];
-   shapes.forEach(d=>ctx.fill(new Path2D(d)));
-   ctx.restore();ctx.restore();
- }
- function drawShare(){
-   if(!ctx)return;
-   ctx.clearRect(0,0,1080,1350);drawBackground();
-   if(shareStyle==="distance"){
-     drawGeometricGlobe();
-     text("LIFETIME DISTANCE",540,858,25,colors.mint,"800","Manrope, Arial, sans-serif","center");
-     text(fmt(sample.miles)+" MI",540,963,91,colors.cream,"800","Manrope, Arial, sans-serif","center");
-     text(fmt(sample.miles/EARTH*100,1)+"% OF AN EARTH LAP",540,1045,30,colors.mint,"800","Manrope, Arial, sans-serif","center");
-   }else if(shareStyle==="journey"){
-     rounded(120,278,840,540,25,colors.cream);
-     if(!drawCover(images.map,140,298,800,500))text("ROUTE 66",540,565,95,colors.ink,"800","Georgia, serif","center");
-     text("VIRTUAL JOURNEY",540,881,27,colors.mint,"800","Manrope, Arial, sans-serif","center");
-     text(sample.journey.name.toUpperCase(),540,970,70,colors.cream,"800","Georgia, serif","center");
-     text(fmt(sample.journey.progress)+" / "+fmt(sample.journey.total)+" MILES",540,1053,33,colors.mint,"800","Manrope, Arial, sans-serif","center");
+ function drawExample(target,style){
+   if(!target)return;
+   const card={footer:"EARTH ODOMETER  ·  SAMPLE DISTANCE"};
+   let path;
+   if(style==="distance"){
+     Object.assign(card,{layout:"counter",value:fmt(sample.miles),unit:"miles",detail:(sample.miles/EARTH).toFixed(2)+" Earth laps"});
+   }else if(style==="today"){
+     path="atlas/globe.jpg";
+     Object.assign(card,{layout:"globe",title:"Today",value:"32 mi",rows:[["On foot","4.2 mi"],["Driving","19.8 mi"],["Train","8 mi"]]});
+   }else if(style==="journey"){
+     path="scenes/route66.jpg";
+     Object.assign(card,{layout:"postcard",status:"VIRTUAL JOURNEY",title:"Route 66",value:"842 mi of 2,448 mi",detail:"34% complete",progress:842/2448});
    }else{
-     rounded(230,258,620,570,30,colors.cream);
-     const img=images.medals;
-     if(img.complete&&img.naturalWidth){
-       // 1,000 Miles medallion crop from the approved app's cabinet artwork.
-       ctx.drawImage(img,482,103,217,334,365,305,350,470);
-     }else text("★",540,645,340,colors.teal,"700","Georgia, serif","center");
-     text("MILESTONE UNLOCKED",540,884,26,colors.mint,"800","Manrope, Arial, sans-serif","center");
-     text(sample.medal.name.toUpperCase(),540,978,72,colors.cream,"800","Georgia, serif","center");
-     text(fmt(sample.medal.miles)+" MILES",540,1056,34,colors.mint,"800","Manrope, Arial, sans-serif","center");
+     const medal=sample.medal;
+     path="medals/"+medal.name.toLowerCase().replaceAll(",","").replaceAll(" ","-")+".png";
+     Object.assign(card,{layout:"medal",status:"EARNED MEDAL",title:medal.name,detail:fmt(medal.miles)+" mi milestone"});
    }
+   const art=path?artwork(path):null;
+   if(path&&!art)return;
+   drawTravelCard(target,card,art);
+   target.setAttribute("aria-label",[card.status,card.title,card.value,card.unit,card.detail,"Sample distance"].filter(Boolean).join(" · "));
  }
+ function drawShare(){drawExample(canvas,shareStyle)}
+ refreshStats();
  const options=[...document.querySelectorAll("[data-share-style]")];
  options.forEach(button=>button.addEventListener("click",()=>{
    shareStyle=button.dataset.shareStyle;
@@ -141,12 +98,12 @@
    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
  });
  $("copy-share")?.addEventListener("click",async()=>{
-   const phrase=shareStyle==="distance"
+   const phrase=shareStyle==="today"?"My Earth Odometer sample day: 32 miles.":shareStyle==="distance"
      ?"My Earth Odometer sample journey: "+fmt(sample.miles)+" miles ("+fmt(sample.miles/EARTH*100,1)+"% of an Earth lap)."
      :shareStyle==="journey"
-     ?"My Earth Odometer sample "+sample.journey.name+" journey: "+fmt(sample.journey.progress)+" of "+fmt(sample.journey.total)+" miles."
+     ?"My Earth Odometer sample Route 66 journey: 842 of 2,448 miles."
      :"My Earth Odometer sample milestone: "+sample.medal.name+" ("+fmt(sample.medal.miles)+" miles).";
-   const copy=phrase+" iPhone app coming soon: earthodometer.com";
+   const copy=phrase+" earthodometer.com";
    try{await navigator.clipboard.writeText(copy);$("copy-share").textContent="Copied!"}
    catch(_){$("copy-share").textContent="Copy unavailable"}
  });

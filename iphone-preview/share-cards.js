@@ -90,6 +90,68 @@ async function loadCardArtwork(path) {
  await image.decode();
  return image;
 }
+// The app export and the marketing samples share this canvas layout.
+function drawTravelCard(canvas, card, art) {
+ const x=canvas.getContext('2d'), h=canvas.height;
+ const dark=card.layout==='counter'||card.layout==='medal';
+ const paper='#f8f2e3', ink='#103d3d', gold='#c4a36a', fg=dark?paper:ink;
+ x.save();
+ x.fillStyle=dark?'#103233':paper; x.fillRect(0,0,1080,h);
+ x.strokeStyle=gold; x.lineWidth=3; x.strokeRect(32,32,1016,h-64);
+ function label(str,y,size,serif=false,color=fg,max=910) {
+  x.font=(serif?'bold '+size+'px Georgia':'600 '+size+'px sans-serif');
+  x.textAlign='center'; x.fillStyle=color; x.fillText(str,540,h*y,max);
+ }
+ function picture(top,bottom,cover=false) {
+  const height=h*(bottom-top),width=920;
+  const scale=(cover?Math.max:Math.min)(width/art.width,height/art.height);
+  x.save(); x.beginPath(); x.rect(80,h*top,width,height); x.clip();
+  x.drawImage(art,(1080-art.width*scale)/2,h*top+(height-art.height*scale)/2,art.width*scale,art.height*scale);
+  x.restore();
+ }
+ label('E A R T H   O D O M E T E R',.092,38,true);
+ if(card.layout==='counter'){
+  label('LIFETIME DISTANCE',.23,34,false,gold);
+  const chars=Array.from(card.value.replace(/,/g,''));
+  const unit=Math.min(142,890/chars.length),width=unit*chars.length,top=h*.33,height=h*.23;
+  x.fillStyle=gold; x.fillRect((1080-width)/2-9,top-9,width+18,height+18);
+  chars.forEach((ch,i)=>{
+   const left=(1080-width)/2+i*unit;
+   const drum=x.createLinearGradient(0,top,0,top+height);
+   drum.addColorStop(0,'#0a191a');drum.addColorStop(.46,'#405252');drum.addColorStop(1,'#101d1e');
+   x.fillStyle=drum;x.fillRect(left,top,unit-2,height);
+   x.font='bold '+Math.min(unit*1.32,height*.72)+'px Georgia';x.fillStyle=paper;
+   x.textBaseline='middle';x.fillText(ch,left+unit/2,top+height/2,unit*.9);
+  });
+  x.textBaseline='alphabetic';label(card.unit,.65,60,true);
+  label(card.detail,.82,43,true);
+ }else if(card.layout==='medal'){
+  label(card.status,.175,31,false,gold);picture(.215,.69);
+  label(card.title,.78,79,true);label(card.detail,.86,39);
+ }else if(card.layout==='postcard'){
+  label(card.status,.162,30);label(card.title,.253,81,true);
+  picture(.295,.675,true);
+  label(card.value,.765,55,true);label(card.detail,.845,33);
+  if(Number.isFinite(card.progress)){
+   x.fillStyle='#d9d6c6';x.fillRect(155,h*.875,770,12);
+   x.fillStyle=ink;x.fillRect(155,h*.875,770*Math.min(1,Math.max(0,card.progress)),12);
+  }
+ }else{
+  label(card.title,.18,45,true);label(card.value,.29,100,true);
+  picture(.315,card.rows?.length ? .61 : .74);
+  if(card.rows?.length){
+   const step=Math.min(.048,.24/Math.ceil(card.rows.length/2));
+   card.rows.forEach((row,i)=>{
+    const left=i%2?564:92, y=h*(.67+Math.floor(i/2)*step);
+    x.font='32px sans-serif';x.fillStyle=ink;x.textAlign='left';x.fillText(row[0],left,y,195);
+    x.textAlign='right';x.fillText(row[1],left+420,y,209);
+   });
+  }else label(card.detail,.835,42,true);
+ }
+ label(card.footer,.954,24,false,dark?'#d5c39d':'#526966');
+ x.restore();
+}
+
 async function share(kind='today',format='story',mode='All modes') {
  const year=kind==='year',contextual=!['today','year','lifetime'].includes(kind);
  const [eyebrow,title,value,stat,detail]=cardContent(kind);
@@ -104,18 +166,15 @@ async function share(kind='today',format='story',mode='All modes') {
  const modeInput=document.querySelector('#share-mode');
  if(modeInput){modeInput.value=mode;modeInput.onchange=()=>share(kind,format,modeInput.value)}
  sizeInput.onchange=()=>share(kind,sizeInput.value,mode);
- const c=document.querySelector('#mile-card'),x=c.getContext('2d'),h=c.height;
- x.fillStyle='#f7f2e5';x.fillRect(0,0,c.width,h);
- x.strokeStyle='#b9aa85';x.lineWidth=3;x.strokeRect(40,40,1000,h-80);
- const print=(str,y,font,color='#114e50')=>{x.fillStyle=color;x.font=font;x.fillText(str,88,y,904)};
+ const c=document.querySelector('#mile-card');
  const journey=kind.startsWith('journey-')||kind.startsWith('finish-')?destinations[kind.split('-')[1]]:null;
  const checkpoint=kind.startsWith('checkpoint-')?stops[Number(kind.slice(11))]:null;
  const routeArt=journey&&(kind.startsWith('finish-')?journey.stamp:journey.art);
- const artPath=medal?medalImagePath(medal):rows?'assets/share/'+kind+'.jpg':
+ const artPath=medal?medalImagePath(medal):rows?'assets/atlas/globe.jpg':
   'assets/'+(checkpoint?.image||routeArt||'atlas/globe')+'.jpg';
  let art;
  try{
-  art=await loadCardArtwork(artPath);
+  if(kind!=='lifetime')art=await loadCardArtwork(artPath);
  }catch{
   if(!c.isConnected)return;
   const help=document.querySelector('#export-help');
@@ -127,52 +186,25 @@ async function share(kind='today',format='story',mode='All modes') {
   return;
  }
  if(!c.isConnected)return;
- if(medal||journey||checkpoint||kind==='lifetime'){
-  x.textAlign='center';
-  const center=(str,y,font)=>{x.fillStyle='#114e50';x.font=font;x.fillText(str,540,y,904)};
-  if(!medal){
-   center('EARTH ODOMETER',h*.12,'bold 46px Georgia');
-   center(eyebrow,h*.19,'bold 32px sans-serif');
-   const height=h*.37,scale=Math.min(896/art.naturalWidth,height/art.naturalHeight);
-   const w=art.naturalWidth*scale,dh=art.naturalHeight*scale;
-   x.drawImage(art,(1080-w)/2,h*.22+(height-dh)/2,w,dh);
-   center(title,h*.655,'bold 80px Georgia');
-   center((kind==='lifetime'?value+' '+preferences.units:value)+'  ·  '+stat,h*.725,'bold 45px Georgia');
-   center(detail,h*.79,'33px sans-serif');
-   c.setAttribute('aria-label',title+' illustrated share card · '+value+' · '+stat);
-  }else{
-  center('EARTH ODOMETER',h*.12,'bold 44px Georgia');
-  center(medalMiles()>=medal.target?'EARNED MEDAL':'LOCKED MILESTONE',h*.18,'bold 32px sans-serif');
-  const height=h*.40,width=height*art.naturalWidth/art.naturalHeight;
-  x.drawImage(art,(1080-width)/2,h*.205,width,height);
-  center(medal.title,h*.67,'bold 81px Georgia');
-  center(medalMiles()>=medal.target?distanceText(medal.target)+' traveled':value+' of '+distanceText(medal.target),h*.75,'bold 48px Georgia');
-  c.setAttribute('aria-label',medal.title+' medal share card');
-  }
-  x.textAlign='left';
- }else if(rows){
-  print('EARTH ODOMETER',h*.085,'bold 47px Georgia');
-  print(year?new Date().getFullYear()+'   /   THIS YEAR':'FIELD NOTES   /   TODAY',h*.14,'bold 30px sans-serif');
-  const bandHeight=h*.23,scale=Math.max(904/art.naturalWidth,bandHeight/art.naturalHeight);
-  x.save();x.beginPath();x.rect(88,h*.175,904,bandHeight);x.clip();
-  x.drawImage(art,88+(904-art.naturalWidth*scale)/2,h*.175+(bandHeight-art.naturalHeight*scale)/2,art.naturalWidth*scale,art.naturalHeight*scale);x.restore();
-  print(selected?selected[0]:title,h*.465,'bold 70px Georgia');
-  x.fillStyle='#103f41';x.fillRect(64,h*.49,952,h*.115);
-  print(selected?milesText(selected[1]):value+' '+preferences.units,h*.58,'bold 100px monospace','#fff8e7');
-  if(selected){
-   print((preferences.units==='km'?'Kilometers':'Miles')+(year?' this year':' today'),h*.73,'bold 56px Georgia');
-  }else{
-   rows.forEach(([label,n],i)=>{
-    const y=h*(.65+Math.min(.043,.21/Math.max(1,rows.length-1))*i);
-    print(label,y,rows.length>5?'35px Georgia':'42px Georgia');
-    x.textAlign='right';x.fillText(milesText(n),992,y);x.textAlign='left';
-   });
-  }
-  c.setAttribute('aria-label',(year?'This year':'Today')+' illustrated share card · '+(selected?[selected]:rows).map(([label,n])=>label+' '+milesText(n)).join(', '));
-
+ const card={title,value,detail,footer:recordedTotals()?'EARTH ODOMETER  ·  RECORDED DISTANCE':'EARTH ODOMETER  ·  SAMPLE DISTANCE'};
+ if(kind==='lifetime'){
+  Object.assign(card,{layout:'counter',unit:preferences.units==='km'?'kilometers':'miles',detail:stat});
+ }else if(medal){
+  const earned=medalMiles()>=medal.target;
+  Object.assign(card,{layout:'medal',title:medal.title,status:earned?'EARNED MEDAL':'MILESTONE PROGRESS',
+   detail:earned?distanceText(medal.target)+' milestone':distanceText(medalMiles())+' of '+distanceText(medal.target)});
+ }else if(journey||checkpoint){
+  const finish=kind.startsWith('finish-'), progress=journey?.miles?(finish?1:journeyMiles(journey)/journey.miles):null;
+  Object.assign(card,{layout:'postcard',status:finish?'VIRTUAL JOURNEY  ·  FINISH STAMP':eyebrow,
+   value:journey&&progress!==null?(progress>=1?'Journey completed':value+' of '+distanceText(journey.miles)):value,
+   detail:progress===null?detail:Math.min(100,Math.floor(100*progress))+'% complete  ·  '+detail,progress});
+ }else{
+  Object.assign(card,{layout:'globe',title:(year?'This year':'Today')+(selected?'  ·  '+mode:''),
+   value:selected?milesText(selected[1]):value+' '+preferences.units,
+   rows:selected?null:rows.map(([name,n])=>[name,milesText(n)]),detail:'Total '+(year?'this year':'today')+'  ·  '+value+' '+preferences.units});
  }
- print('EARTH ODOMETER',h*(rows ? .91 : .86),'bold 35px Georgia');
- print(recordedTotals()?(journey||checkpoint?'VIRTUAL JOURNEY  ·  RECORDED DISTANCE':'RECORDED DISTANCE'):'DESIGN PREVIEW  ·  SAMPLE DISTANCE',h*(rows ? .955 : .91),'24px sans-serif');
+ drawTravelCard(c,card,art);
+ c.setAttribute('aria-label',[card.status,card.title,card.value,card.detail].filter(Boolean).join(' · '));
  const url=c.toDataURL('image/png'),fileName='earth-odometer-'+kind+(selected?'-'+mode.toLowerCase().replaceAll(' ','-'):'')+'-'+format+'.png';
  const preview = new Image();
  preview.id = 'mile-card';
@@ -200,4 +232,3 @@ async function share(kind='today',format='story',mode='All modes') {
  document.querySelector('#send-card').disabled=false;
  document.querySelector('#save-card').disabled=false;
 }
-
