@@ -242,9 +242,41 @@ const sharedJourneyScenes = {
 };
 
 function sceneFor(key){ return journeyScenes[sharedJourneyScenes[key] || key]; }
+const closingIllustrations = {
+  vegas: 'checkpoints/vegas-strat',
+  freedom: 'checkpoints/bunker-hill',
+  centralpark: 'checkpoints/central-park-finish',
+  goldengate: 'checkpoints/golden-gate-finish',
+  appalachian: 'checkpoints/katahdin',
+  stripdrive: 'checkpoints/vegas-venetian',
+  bostoncommon: 'atlas/chapter',
+  northendwalk: 'checkpoints/old-north-church',
+  landsendwalk: 'checkpoints/baker-beach',
+  parkreturn: 'checkpoints/west-drive',
+  whitemountainswalk: 'checkpoints/white-mountains',
+  prairieroad: 'TulsaStamp',
+  oklahomaroad: 'OklahomaStamp',
+  panhandleroad: 'AlbuquerqueStamp',
+  pacificroad: 'checkpoints/santa-monica',
+  stonyman: 'journeys/closing/stonyman',
+  cadescove: 'journeys/closing/cadescove',
+  skylinedrive: 'journeys/closing/skylinedrive',
+  lanternwalk: 'journeys/freedom',
+  teapartywalk: 'atlas/harbor',
+  artistsdrive: 'journeys/closing/artistsdrive',
+  redrockdrive: 'journeys/redrock-overlook',
+  brycedrive: 'journeys/closing/brycedrive',
+  archesdrive: 'journeys/closing/archesdrive',
+  craterdrive: 'journeys/closing/craterdrive',
+  boston: 'atlas/chapter',
+  route66: 'FlagstaffStamp',
+  europe: 'journeys/closing/europe',
+  world: 'journeys/closing/world',
+};
+
 function destinationIllustration(key){
  const route=destinations[key];
- if(!route?.miles)return '';
- const art=key==='redrockdrive'?'journeys/redrock-overlook':(route.checkpointArt?.at(-1)||route.art);
+ if(!route)return '';
+ const art=closingIllustrations[key];
  return '<figure class="destination-photo">'+placeArt(art,route.name+' illustration')+'<figcaption><strong>'+route.name+'</strong></figcaption></figure>';
 }

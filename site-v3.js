@@ -51,7 +51,7 @@
      Object.assign(card,{layout:"counter",value:fmt(sample.miles),unit:"miles",detail:(sample.miles/EARTH).toFixed(2)+" Earth laps"});
    }else if(style==="today"){
      path="atlas/globe.jpg";
-     Object.assign(card,{layout:"globe",title:"Today",value:"32 mi",rows:[["On foot","4.2 mi"],["Driving","19.8 mi"],["Train","8 mi"]]});
+     Object.assign(card,{layout:"globe",title:"Today",value:"32 mi",rows:[["Walking","4.2 mi"],["Driving","19.8 mi"],["Train","8 mi"]]});
    }else if(style==="journey"){
      path="scenes/route66.jpg";
      Object.assign(card,{layout:"postcard",status:"VIRTUAL JOURNEY",title:"Route 66",value:"842 mi of 2,448 mi",detail:"34% complete",progress:842/2448});

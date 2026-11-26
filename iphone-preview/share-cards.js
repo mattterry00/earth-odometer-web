@@ -12,7 +12,7 @@ function travelModes(period) {
  if(totals){
   if(totals.categories){
    const amounts=totals.categories[period]||{};
-   return ['Walking','Running','Cycling','Driving','Flying'].map(type=>[type==='Walking'?'On foot':type,amounts[type]||0]);
+   return ['Walking','Running','Cycling','Driving','Flying'].map(type=>[type,amounts[type]||0]);
   }
   const activity=totals.activityMiles||{};
   const running=activity.running?.[period]||0;
@@ -20,7 +20,7 @@ function travelModes(period) {
   const flying=activity.flying?.[period]||0;
   const foot=(year?totals.walkYear:totals.walkToday)||0;
   const total=year?yearMiles():todayMiles();
-  return [['On foot',Math.max(0,foot-running)],['Running',running],['Cycling',cycling],
+  return [['Walking',Math.max(0,foot-running)],['Running',running],['Cycling',cycling],
           ['Driving',Math.max(0,total-foot-cycling-flying)],['Flying',flying]];
  }
  const sample=dataMode==='sample';
@@ -29,19 +29,19 @@ function travelModes(period) {
  const running=previewTotals.running||0;
  const walking=(sample?(year?40:4.2):0)+addedFoot-running;
  const driving=(sample?(year?198:19.8):0)+addedRoad;
- return [['On foot',Math.max(0,walking)],['Running',running],['Cycling',previewTotals.cycling||0],
+ return [['Walking',Math.max(0,walking)],['Running',running],['Cycling',previewTotals.cycling||0],
          ['Driving',Math.max(0,driving)],['Train',sample?(year?24:8):0],['Boat',sample&&year?6:0],
          ['Flying',(sample&&year?980:0)+(previewTotals.flying||0)]];
 }
 function onFootMiles(period){
- return travelModes(period).filter(([label])=>label==='On foot'||label==='Running').reduce((sum,[,value])=>sum+value,0);
+ return travelModes(period).filter(([label])=>label==='Walking'||label==='Running').reduce((sum,[,value])=>sum+value,0);
 }
 function showModes(period) {
  const year=period==='year', rows=travelModes(period);
  const details=rows.map(([label,value])=>{
   return '<p class="mode-detail"><b>'+label+'</b>'+distanceText(value)+'</p>';
  }).join('');
- open(year?'How you traveled this year':'How you traveled today','<p>'+(recordedTotals()?'Recorded':'Sample')+' travel breakdown · '+distanceText(year?yearMiles():todayMiles())+' total</p>'+details+(recordedTotals()?'<p class="muted">On foot includes walks and runs recorded together. Recognized runs and miles classified as running appear under Running.</p>':'')+
+ open(year?'How you traveled this year':'How you traveled today','<p>'+(recordedTotals()?'Recorded':'Sample')+' travel breakdown · '+distanceText(year?yearMiles():todayMiles())+' total</p>'+details+(recordedTotals()?'<p class="muted">Walking includes short or uncertain segments. Recognized runs and miles you classify as running appear under Running.</p>':'')+
   '<button data-card="'+period+'" class="primary full">'+(year?'Share yearly recap':'Share my miles')+'</button>');
 }
 const contextShare=(key,label)=>'<button class="context-share" data-card="'+key+'">'+inkIcon('share')+' '+label+'</button>';
@@ -63,8 +63,8 @@ function cardContent(kind) {
   const g=medalGoals[Number(kind.slice(6))],miles=medalMiles(),earned=miles>=g.target;
   return ['MEDAL CASE',g.title,earned?'Earned':(100*miles/g.target).toFixed(1)+'%',distanceText(g.target)+' milestone',earned?'Lifetime travel distance':distanceText(miles)+' traveled so far'];
  }
- if(kind==='year')return [new Date().getFullYear()+'   /   YEAR IN REVIEW','My year in '+unitName,displayNumber(yearMiles()),(yearMiles()/24901).toFixed(2)+' Earth laps',distanceText(onFootMiles('year'))+' on foot'];
- return ['FIELD NOTES   /   TODAY','My '+unitName+' today',displayNumber(todayMiles()),distanceText(onFootMiles('today'))+' on foot','Walking, riding and everything between.'];
+ if(kind==='year')return [new Date().getFullYear()+'   /   YEAR IN REVIEW','My year in '+unitName,displayNumber(yearMiles()),(yearMiles()/24901).toFixed(2)+' Earth laps',distanceText(onFootMiles('year'))+' walking & running'];
+ return ['FIELD NOTES   /   TODAY','My '+unitName+' today',displayNumber(todayMiles()),distanceText(onFootMiles('today'))+' walking & running','Walking, riding and everything between.'];
 }
 function recap(){share('year')}
 async function loadCardArtwork(path) {

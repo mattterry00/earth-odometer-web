@@ -34,7 +34,7 @@ const destinations = {
 };
 const placeArt=(file,alt='',cls='')=>`<img class="${cls}" src="assets/${file}.jpg" alt="${alt}">`;
 const modes = ['foot','road'];
-const modeLabel = {foot:'On foot',road:'By road'};
+const modeLabel = {foot:'Walking & Running',road:'By road'};
 const modeFor = key => destinations[key]?.mode || (key==='route66'?'road':'foot');
 const byJourneyDistance=([,a],[,b])=>(a.miles??Infinity)-(b.miles??Infinity);
 for (const mode of modes) {
@@ -417,7 +417,7 @@ function atlasMedals(){
  const totals=window.recordedMiles || recordedTotals();
  const activity=totals?.activityMiles||{};
  const running=activity.running?.lifetime||0;
- const breakdown=(totals?.categories?Object.entries(totals.categories.lifetime||{}).map(([type,value])=>[type.toLowerCase(),value]):[['on foot',Math.max(0,(totals?.footLifetime||0)-running)],['running',running],
+ const breakdown=(totals?.categories?Object.entries(totals.categories.lifetime||{}).map(([type,value])=>[type.toLowerCase(),value]):[['walking',Math.max(0,(totals?.footLifetime||0)-running)],['running',running],
                   ['cycling',activity.cycling?.lifetime||0],['driving',totals?.roadLifetime||0],
                   ['flying',activity.flying?.lifetime||0]]).filter(([,value])=>value>0);
  const mileage=totals&&breakdown.length?breakdown.map(([label,value])=>distanceText(value)+' '+label).join(' + '):
