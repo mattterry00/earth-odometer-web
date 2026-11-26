@@ -242,7 +242,7 @@ function inPersonJourneyAction(key){
  const labels={freedom:'Walk this route in person',redrockdrive:'Drive this route in person'};
  const label=labels[key];
  if(!label)return '';
- return atlasButton('in-person-'+key,label,label,'pill wide');
+ return atlasButton('in-person-'+key,label,label,'outline wide');
 }
 function inPersonJourneySection(){
  return '<section><h2>In-person journeys</h2>'+
@@ -251,7 +251,7 @@ function inPersonJourneySection(){
 }
 function destinationDetail(key){
  const d=destinations[key];
- open(d.name,'<div class="atlas destination-detail">'+inPersonJourneyAction(key)+contextShare('journey-'+key,'Share journey')+journeyPanel(d)+(d.intro&&d.miles?'<p>'+d.intro+'</p>':'')+(key==='route66'?routeItinerary():'')+(d.note?journeyFieldNote(d):fieldNote(key==='boston'?'Boston':key==='route66'?'Chicago':d.spotlight))+selectionControl(key)+journeyGuide(key)+'<div class="field-heading"><h3>'+(d.miles?'Journey stamp':'Stamp preview')+'</h3>'+inkMark(d.miles&&bestMiles[key]>=d.miles?'Completed':'')+'</div><div class="journey-imprint">'+passportImprint(d.name,'assets/'+d.stamp+'.jpg')+'</div>'+
+ open(d.name,'<div class="atlas destination-detail">'+contextShare('journey-'+key,'Share journey')+journeyPanel(d)+(d.intro&&d.miles?'<p>'+d.intro+'</p>':'')+(key==='route66'?routeItinerary():'')+(d.note?journeyFieldNote(d):fieldNote(key==='boston'?'Boston':key==='route66'?'Chicago':d.spotlight))+selectionControl(key)+inPersonJourneyAction(key)+journeyGuide(key)+'<div class="field-heading"><h3>'+(d.miles?'Journey stamp':'Stamp preview')+'</h3>'+inkMark(d.miles&&bestMiles[key]>=d.miles?'Completed':'')+'</div><div class="journey-imprint">'+passportImprint(d.name,'assets/'+d.stamp+'.jpg')+'</div>'+
  (key==='boston'?'<p>Your passport keeps the stamp from your first finish, after you choose another journey.</p>':'')+destinationIllustration(key)+'</div>');
 }
 
