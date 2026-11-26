@@ -274,8 +274,8 @@ extraJourneys.artistsdrive = {
   "mode": "road",
   "collection": "National Parks",
   "miles": 9,
-  "art": "scenes/artistsdrive",
-  "stamp": "scenes/artistsdrive",
+  "art": "journeys/artistsdrive",
+  "stamp": "journeys/artistsdrive",
   "intro": "Follow this 9-mile virtual drive from Badwater Road to Artists Drive loop finish. Checkpoint distances are milestones for this virtual journey.",
   "note": {
     "title": "Volcanic colors",
@@ -298,8 +298,8 @@ extraJourneys.artistsdrive = {
     ]
   ],
   "checkpointArt": [
-    "scenes/artistsdrive",
-    "scenes/artistsdrive"
+    "journeys/artistsdrive",
+    "journeys/artistsdrive"
   ],
   "roadBook": true
 };
@@ -309,8 +309,8 @@ extraJourneys.redrockdrive = {
   "mode": "road",
   "collection": "Other journeys",
   "miles": 13,
-  "art": "scenes/redrockdrive",
-  "stamp": "scenes/redrockdrive",
+  "art": "journeys/redrockdrive",
+  "stamp": "journeys/redrockdrive",
   "intro": "Follow this 13-mile virtual drive from Scenic Drive entrance to Red Rock scenic loop finish. Checkpoint distances are milestones for this virtual journey.",
   "note": {
     "title": "Calico Hills",
@@ -333,8 +333,8 @@ extraJourneys.redrockdrive = {
     ]
   ],
   "checkpointArt": [
-    "scenes/redrockdrive",
-    "scenes/redrockdrive"
+    "journeys/redrockdrive",
+    "journeys/redrockdrive"
   ],
   "roadBook": true
 };
@@ -344,8 +344,8 @@ extraJourneys.brycedrive = {
   "mode": "road",
   "collection": "National Parks",
   "miles": 15,
-  "art": "scenes/brycedrive",
-  "stamp": "scenes/brycedrive",
+  "art": "journeys/brycedrive",
+  "stamp": "journeys/brycedrive",
   "intro": "Follow this 15-mile virtual drive from Southern Scenic Drive entrance to Rainbow Point. Checkpoint distances are milestones for this virtual journey.",
   "note": {
     "title": "Above the amphitheater",
@@ -368,8 +368,8 @@ extraJourneys.brycedrive = {
     ]
   ],
   "checkpointArt": [
-    "scenes/brycedrive",
-    "scenes/brycedrive"
+    "journeys/brycedrive",
+    "journeys/brycedrive"
   ],
   "roadBook": true
 };
@@ -379,8 +379,8 @@ extraJourneys.archesdrive = {
   "mode": "road",
   "collection": "National Parks",
   "miles": 18,
-  "art": "scenes/archesdrive",
-  "stamp": "scenes/archesdrive",
+  "art": "journeys/archesdrive",
+  "stamp": "journeys/archesdrive",
   "intro": "Follow this 18-mile virtual drive from Arches visitor center to Devils Garden trailhead. Checkpoint distances are milestones for this virtual journey.",
   "note": {
     "title": "Balanced Rock",
@@ -403,8 +403,8 @@ extraJourneys.archesdrive = {
     ]
   ],
   "checkpointArt": [
-    "scenes/archesdrive",
-    "scenes/archesdrive"
+    "journeys/archesdrive",
+    "journeys/archesdrive"
   ],
   "roadBook": true
 };
@@ -414,8 +414,8 @@ extraJourneys.craterdrive = {
   "mode": "road",
   "collection": "National Parks",
   "miles": 33,
-  "art": "scenes/craterdrive",
-  "stamp": "scenes/craterdrive",
+  "art": "journeys/craterdrive",
+  "stamp": "journeys/craterdrive",
   "intro": "Follow this 33-mile virtual drive from Rim Village to Rim Village loop finish. Checkpoint distances are milestones for this virtual journey.",
   "note": {
     "title": "The caldera rim",
@@ -438,8 +438,8 @@ extraJourneys.craterdrive = {
     ]
   ],
   "checkpointArt": [
-    "scenes/craterdrive",
-    "scenes/craterdrive"
+    "journeys/craterdrive",
+    "journeys/craterdrive"
   ],
   "roadBook": true
 };

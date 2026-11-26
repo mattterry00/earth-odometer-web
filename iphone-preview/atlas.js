@@ -238,10 +238,21 @@ function routeItinerary(){
  const rows=stops.filter(s=>!s.completed&&!s.journey).map(s=>`<li><span>${s.city}</span><b>${s.mile.toLocaleString()} mi</b></li>`).join('');
  return '<details class="route-itinerary"><summary>Route 66 checkpoints</summary><small>Virtual miles from Chicago</small><ol>'+rows+'</ol></details>';
 }
+function inPersonJourneyAction(key){
+ const labels={freedom:'Walk this route in person',redrockdrive:'Drive this route in person'};
+ const label=labels[key];
+ if(!label)return '';
+ return atlasButton('in-person-'+key,label,label,'pill wide');
+}
+function inPersonJourneySection(){
+ return '<section><h2>In-person journeys</h2>'+
+  atlasButton('destination-freedom','Open Freedom Trail in Boston','Walk the Freedom Trail　›','outline wide')+
+  atlasButton('destination-redrockdrive','Open Red Rock Canyon Scenic Drive','Drive Red Rock Canyon　›','outline wide')+'</section>';
+}
 function destinationDetail(key){
  const d=destinations[key];
- open(d.name,'<div class="atlas destination-detail">'+contextShare('journey-'+key,'Share journey')+journeyPanel(d)+(d.intro&&d.miles?'<p>'+d.intro+'</p>':'')+(key==='route66'?routeItinerary():'')+(d.note?journeyFieldNote(d):fieldNote(key==='boston'?'Boston':key==='route66'?'Chicago':d.spotlight))+selectionControl(key)+journeyGuide(key)+'<div class="field-heading"><h3>'+(d.miles?'Journey stamp':'Stamp preview')+'</h3>'+inkMark(d.miles&&bestMiles[key]>=d.miles?'Completed':'')+'</div><div class="journey-imprint">'+passportImprint(d.name,'assets/'+d.stamp+'.jpg')+'</div>'+
- (key==='boston'?'<p>Your passport keeps the stamp from your first finish, after you choose another journey.</p>':'')+destinationPhoto(key)+'</div>');
+ open(d.name,'<div class="atlas destination-detail">'+inPersonJourneyAction(key)+contextShare('journey-'+key,'Share journey')+journeyPanel(d)+(d.intro&&d.miles?'<p>'+d.intro+'</p>':'')+(key==='route66'?routeItinerary():'')+(d.note?journeyFieldNote(d):fieldNote(key==='boston'?'Boston':key==='route66'?'Chicago':d.spotlight))+selectionControl(key)+journeyGuide(key)+'<div class="field-heading"><h3>'+(d.miles?'Journey stamp':'Stamp preview')+'</h3>'+inkMark(d.miles&&bestMiles[key]>=d.miles?'Completed':'')+'</div><div class="journey-imprint">'+passportImprint(d.name,'assets/'+d.stamp+'.jpg')+'</div>'+
+ (key==='boston'?'<p>Your passport keeps the stamp from your first finish, after you choose another journey.</p>':'')+destinationIllustration(key)+'</div>');
 }
 
 function pausedJourneyEntries(){
@@ -333,7 +344,7 @@ function atlasJourneys(){
  const available=Object.entries(destinations).filter(([key,d])=>d.miles&&activeRuns[modeFor(key)]?.key!==key&&!routeFinished(key)).sort(byJourneyDistance);
  const paused=pausedJourneyEntries();
  const pausedSection=paused.length?'<section><h2>Paused journeys ('+paused.length+')</h2>'+paused.map(destinationCard).join('')+'</section>':'';
- return mark()+'<h1>Journeys</h1>'+journeyChoices()+pausedSection+current+catalogSection(available,true)+catalogSection(available,false);
+ return mark()+'<h1>Journeys</h1>'+inPersonJourneySection()+journeyChoices()+pausedSection+current+catalogSection(available,true)+catalogSection(available,false);
 }
 function completedJourneyRecords(){
  return Object.keys(bestMiles).map(key=>[key,destinations[key]]).filter(([key,d])=>d?.miles&&bestMiles[key]>=d.miles).map(([key,d])=>
@@ -342,7 +353,7 @@ function completedJourneyRecords(){
 function completedJourneyDetail(key){
  const d=destinations[key];
  const map=d.points?journeyRouteMap(d,d.miles):key==='boston'?completedBostonMap():completedRoute66Map();
- open(d.name+' · Completed',placeArt(d.art,d.name+' illustration','detail-art')+map+'<div class="field-heading"><h3>'+d.name+'</h3>'+inkMark('Completed')+'</div>'+contextShare('finish-'+key,'Share completed journey')+'<p>'+d.miles.toLocaleString()+' virtual miles completed. This finish stays in your passport.</p>'+journeyGuide(key)+destinationPhoto(key));
+ open(d.name+' · Completed',inPersonJourneyAction(key)+placeArt(d.art,d.name+' illustration','detail-art')+map+'<div class="field-heading"><h3>'+d.name+'</h3>'+inkMark('Completed')+'</div>'+contextShare('finish-'+key,'Share completed journey')+'<p>'+d.miles.toLocaleString()+' virtual miles completed. This finish stays in your passport.</p>'+journeyGuide(key)+destinationIllustration(key));
 }
 function earnedStampCount(){return stops.filter(stop=>stampEarned(stop,bestMiles)).length;}
 function personalJourneyMap(){
@@ -473,6 +484,19 @@ document.addEventListener('click',event=>{
  if(action.startsWith('switch-')){if(switchJourney(action.slice(7)))go('Journeys');return}
  if(action.startsWith('start-')){if(startJourney(action.slice(6)))go('Journeys');return}
  if(action.startsWith('completed-')){completedJourneyDetail(action.slice(10));return}
+ if(action.startsWith('in-person-')){
+  const key=action.slice('in-person-'.length);
+  if(!['freedom','redrockdrive'].includes(key))return;
+  const bridge=window.webkit?.messageHandlers?.driveTest;
+  if(!bridge){
+   open(destinations[key].name,'<p>Open this route in the Earth Odometer iPhone app to view the checkpoints and record your '+(key==='freedom'?'walk':'drive')+'.</p><a href="guide.html#in-person">Read the in-person journey guide</a>');
+  } else if(canTravel(key)){
+   bridge.postMessage({section:'in-person',route:key});
+  } else {
+   premiumInfo(key);
+  }
+  return;
+ }
  if(action.startsWith('destination-')){destinationDetail(action.slice(12));return}
  if(action.startsWith('chapter-')){
   const activeRun=activeRuns[action.slice(8)];

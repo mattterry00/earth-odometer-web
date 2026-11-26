@@ -242,9 +242,9 @@ const sharedJourneyScenes = {
 };
 
 function sceneFor(key){ return journeyScenes[sharedJourneyScenes[key] || key]; }
-function destinationPhoto(key){
- const scene=sceneFor(key);
- if(!scene)return '';
- const file=sharedJourneyScenes[key] || key;
- return `<figure class="destination-photo"><img loading="lazy" src="assets/scenes/${file}.jpg" alt="${scene.caption}"><figcaption><strong>${scene.caption}</strong><small>Photo by ${scene.author} · <a target="_blank" rel="noopener" href="${scene.source}">Original</a> · <a target="_blank" rel="noopener" href="${scene.licenseURL}">${scene.license}</a></small></figcaption></figure>`;
+function destinationIllustration(key){
+ const route=destinations[key];
+ if(!route?.miles)return '';
+ const art=key==='redrockdrive'?'journeys/redrock-overlook':(route.checkpointArt?.at(-1)||route.art);
+ return '<figure class="destination-photo">'+placeArt(art,route.name+' illustration')+'<figcaption><strong>'+route.name+'</strong></figcaption></figure>';
 }
