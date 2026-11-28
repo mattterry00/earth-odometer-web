@@ -1,0 +1,245 @@
+[
+  {
+    "id": "vegas",
+    "title": "Las Vegas Strip",
+    "place": "Mandalay Bay to The STRAT",
+    "walking": true,
+    "art": "journeys/vegas",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "freedom",
+    "title": "Freedom Trail",
+    "place": "Boston, Massachusetts",
+    "walking": true,
+    "art": "checkpoints/bunker-hill",
+    "startNote": "Start at Boston Common. Follow the marked trail through the Navy Yard to Bunker Hill.",
+    "source": "Boston Freedom Trail GIS"
+  },
+  {
+    "id": "centralpark",
+    "title": "Central Park Loop",
+    "place": "One circuit of Manhattan’s green heart",
+    "walking": true,
+    "art": "journeys/centralpark",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "goldengate",
+    "title": "Golden Gate Coast",
+    "place": "San Francisco · Ocean, bluffs and bridge",
+    "walking": true,
+    "art": "journeys/goldengate",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "appalachian",
+    "title": "Appalachian Trail",
+    "place": "Springer Mountain, Georgia to Katahdin, Maine",
+    "walking": true,
+    "art": "journeys/appalachian",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "National Park Service and Appalachian Trail Conservancy"
+  },
+  {
+    "id": "stripdrive",
+    "title": "Las Vegas Boulevard Drive",
+    "place": "Mandalay Bay to The STRAT",
+    "walking": false,
+    "art": "journeys/vegas",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "bostoncommon",
+    "title": "Boston Common to the Old State House",
+    "place": "Downtown Boston",
+    "walking": true,
+    "art": "journeys/freedom",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "Boston Freedom Trail GIS"
+  },
+  {
+    "id": "northendwalk",
+    "title": "North End to Charlestown",
+    "place": "Old State House to Bunker Hill",
+    "walking": true,
+    "art": "journeys/freedom",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "Boston Freedom Trail GIS"
+  },
+  {
+    "id": "landsendwalk",
+    "title": "Lands End to the Golden Gate",
+    "place": "Lands End to Golden Gate Bridge",
+    "walking": true,
+    "art": "journeys/goldengate",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "parkreturn",
+    "title": "Central Park West Side",
+    "place": "North end to Loop complete",
+    "walking": true,
+    "art": "journeys/centralpark",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "whitemountainswalk",
+    "title": "White Mountains to Katahdin",
+    "place": "White Mountains to Katahdin",
+    "walking": true,
+    "art": "journeys/appalachian",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "National Park Service and Appalachian Trail Conservancy"
+  },
+  {
+    "id": "prairieroad",
+    "title": "Chicago to Tulsa",
+    "place": "Historic Route 66",
+    "walking": false,
+    "art": "ChicagoStamp",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "oklahomaroad",
+    "title": "Tulsa to Oklahoma City",
+    "place": "Historic Route 66",
+    "walking": false,
+    "art": "TulsaStamp",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "panhandleroad",
+    "title": "Oklahoma City to Albuquerque",
+    "place": "Historic Route 66",
+    "walking": false,
+    "art": "OklahomaStamp",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "pacificroad",
+    "title": "Albuquerque to Santa Monica",
+    "place": "Historic Route 66",
+    "walking": false,
+    "art": "AlbuquerqueStamp",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "stonyman",
+    "title": "Stony Man Summit Walk",
+    "place": "Shenandoah National Park",
+    "walking": true,
+    "art": "checkpoints/shenandoah",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "National Park Service, Shenandoah"
+  },
+  {
+    "id": "cadescove",
+    "title": "Cades Cove Loop Road",
+    "place": "Great Smoky Mountains National Park",
+    "walking": false,
+    "art": "checkpoints/great-smokies",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "skylinedrive",
+    "title": "Skyline Drive",
+    "place": "Shenandoah National Park",
+    "walking": false,
+    "art": "checkpoints/shenandoah",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "National Park Service, Shenandoah"
+  },
+  {
+    "id": "lanternwalk",
+    "title": "The Lanterns of Old North",
+    "place": "Boston, Massachusetts",
+    "walking": true,
+    "art": "checkpoints/old-north-church",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "teapartywalk",
+    "title": "Boston Tea Party Meeting Walk",
+    "place": "Boston, Massachusetts",
+    "walking": true,
+    "art": "journeys/freedom",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "artistsdrive",
+    "title": "Artists Drive",
+    "place": "Death Valley National Park",
+    "walking": false,
+    "art": "journeys/artistsdrive",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "National Park Service, Death Valley"
+  },
+  {
+    "id": "redrockdrive",
+    "title": "Red Rock Canyon Scenic Drive",
+    "place": "Red Rock Canyon, Nevada",
+    "walking": false,
+    "art": "journeys/redrockdrive",
+    "startNote": "Start at the Scenic Drive entrance off SR-159. Follow the one-way drive to its exit.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "brycedrive",
+    "title": "Bryce Canyon Southern Scenic Drive",
+    "place": "Bryce Canyon National Park",
+    "walking": false,
+    "art": "journeys/brycedrive",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "archesdrive",
+    "title": "Arches to Devils Garden",
+    "place": "Arches National Park",
+    "walking": false,
+    "art": "journeys/archesdrive",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "craterdrive",
+    "title": "Crater Lake Rim Drive",
+    "place": "Crater Lake National Park",
+    "walking": false,
+    "art": "journeys/craterdrive",
+    "startNote": "Begin at the Start marker and follow the mapped path to the finish. The next GPS check appears as you travel.",
+    "source": "OpenStreetMap"
+  },
+  {
+    "id": "boston",
+    "title": "Boston Marathon Course",
+    "place": "Hopkinton to Boston, Massachusetts",
+    "walking": true,
+    "art": "atlas/boston",
+    "startNote": "Follow the mapped marathon course from Hopkinton to Boylston Street. Use public pedestrian access and observe road restrictions.",
+    "source": "Boston Marathon Route GIS"
+  },
+  {
+    "id": "route66",
+    "title": "Route 66",
+    "place": "Chicago to Santa Monica",
+    "walking": false,
+    "art": "atlas/desert",
+    "startNote": "Follow the mapped Earth Odometer driving edition from Chicago to Santa Monica. Historic alignments vary.",
+    "source": "OpenStreetMap"
+  }
+]

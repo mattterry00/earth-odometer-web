@@ -238,16 +238,41 @@ function routeItinerary(){
  const rows=stops.filter(s=>!s.completed&&!s.journey).map(s=>`<li><span>${s.city}</span><b>${s.mile.toLocaleString()} mi</b></li>`).join('');
  return '<details class="route-itinerary"><summary>Route 66 checkpoints</summary><small>Virtual miles from Chicago</small><ol>'+rows+'</ol></details>';
 }
+async function previewInPersonRoute(key){
+ const route=destinations[key];
+ const action=modeFor(key)==='road'?'drive':'walk';
+ open(route.name,'<div class="atlas" data-route-preview="'+key+'"><p>Loading route map…</p></div>');
+ const target=document.querySelector('[data-route-preview="'+key+'"]');
+ try {
+  const response=await fetch('in-person/'+key+'.json');
+  if(!response.ok)throw new Error('map');
+  const path=await response.json();
+  let south=90,north=-90,west=180,east=-180;
+  for(const [lat,lon] of path){
+   south=Math.min(south,lat);north=Math.max(north,lat);
+   west=Math.min(west,lon);east=Math.max(east,lon);
+  }
+  const aspect=Math.cos((north+south)*Math.PI/360);
+  const scale=Math.min(300/Math.max((east-west)*aspect,0.00001),180/Math.max(north-south,0.00001));
+  const xy=([y,x])=>[10+(x-west)*aspect*scale,10+(north-y)*scale].map(n=>n.toFixed(1));
+  const points=path.map(p=>xy(p).join(',')).join(' ');
+  const [sx,sy]=xy(path[0]),[fx,fy]=xy(path[path.length-1]);
+  target.innerHTML='<svg role="img" aria-label="Mapped route with start and finish" viewBox="0 0 320 200"><polyline fill="none" stroke="#28554e" stroke-width="2" points="'+points+'"/><circle cx="'+sx+'" cy="'+sy+'" r="5" fill="#19765c"/><circle cx="'+fx+'" cy="'+fy+'" r="3" fill="#a74a29"/></svg><p>Green marks the start. Rust marks the finish.</p>';
+ } catch {
+  target.textContent='The route map could not be loaded.';
+ }
+ target.insertAdjacentHTML('beforeend','<p>On iPhone, choose Directions to start, then '+action+' this route in person to record your trip and earn its dated stamp.</p><a href="guide.html#in-person">In-person journey guide</a> · <a href="in-person/SOURCES.md">Map credits</a>');
+}
 function inPersonJourneyAction(key){
- const labels={freedom:'Walk this route in person',redrockdrive:'Drive this route in person'};
- const label=labels[key];
- if(!label)return '';
+ if(!destinations[key]?.miles)return '';
+ const label=modeFor(key)==='road'?'Drive this route in person':'Walk this route in person';
  return atlasButton('in-person-'+key,label,label,'outline wide');
 }
 function inPersonJourneySection(){
- return '<section><h2>In-person journeys</h2>'+
-  atlasButton('destination-freedom','Open Freedom Trail in Boston','Walk the Freedom Trail　›','outline wide')+
-  atlasButton('destination-redrockdrive','Open Red Rock Canyon Scenic Drive','Drive Red Rock Canyon　›','outline wide')+'</section>';
+ return '<details><summary>In-person journeys</summary>'+Object.keys(destinations).filter(key=>destinations[key].miles>0).map(key=>{
+  const name=destinations[key].name;
+  return atlasButton('destination-'+key,'Open '+name,name+'　›','outline wide');
+ }).join('')+'</details>';
 }
 function destinationDetail(key){
  const d=destinations[key];
@@ -379,7 +404,7 @@ function atlasPassport(){
  const summary='<p class="subtitle">'+count+' of '+stops.length+' stamps earned'+(dataMode==='sample'?' · Sample progress':'')+'</p>';
  return `<div class="passport-head">${mark()}${atlasAsset('compass','','compass')}<h1>Passport</h1></div>${summary}
  <div class="switch">${['map','book'].map((v,i)=>`<button data-atlas="${v}" aria-pressed="${v===passportMode}">${['Journey map','Stamp book'][i]}</button>`).join('')}</div>`+
- (map?personalJourneyMap():'')+
+ (window.webkit?.messageHandlers?.driveTest?atlasButton('local-stamps','In-person stamps','In-person stamps','outline wide'):'')+(map?personalJourneyMap():'')+
  (map?completedJourneyRecords()+
  (Object.values(activeRuns).map(activeRun=>'<p class="journey-sequence"><b>Active · '+destinations[activeRun.key].name+'</b><br>'+journeyMiles(destinations[activeRun.key]).toLocaleString()+' / '+destinations[activeRun.key].miles.toLocaleString()+' virtual miles</p>').join('')||'<p class="journey-sequence">Choose your next journey from Journeys.</p>')+
  atlasButton('book','View stamp book','View stamp book　›','pill wide'):
@@ -486,10 +511,10 @@ document.addEventListener('click',event=>{
  if(action.startsWith('completed-')){completedJourneyDetail(action.slice(10));return}
  if(action.startsWith('in-person-')){
   const key=action.slice('in-person-'.length);
-  if(!['freedom','redrockdrive'].includes(key))return;
+  if(!destinations[key]?.miles)return;
   const bridge=window.webkit?.messageHandlers?.driveTest;
   if(!bridge){
-   open(destinations[key].name,'<p>Open this route in the Earth Odometer iPhone app to view the checkpoints and record your '+(key==='freedom'?'walk':'drive')+'.</p><a href="guide.html#in-person">Read the in-person journey guide</a>');
+   previewInPersonRoute(key);
   } else if(canTravel(key)){
    bridge.postMessage({section:'in-person',route:key});
   } else {
@@ -510,6 +535,10 @@ document.addEventListener('click',event=>{
  if(action==='backToCase'){fullMedalCase();return}
  if(b.dataset.medal!==undefined){const miles=medalMiles();const goal=medalGoals[Number(b.dataset.medal)];open(goal.title,medalPortrait(goal)+contextShare('medal-'+medalGoals.indexOf(goal),'Share medal')+'<p>'+distanceText(goal.target)+' of lifetime travel</p><p>Earned across all travel modes. This is a cumulative distance milestone, not a verified race finish.</p>'+(miles<goal.target?'<p>'+(100*miles/goal.target).toFixed(1)+'% complete · '+Math.ceil(goal.target-miles).toLocaleString()+' mi to go</p>'+line(miles,goal.target):'')+(b.closest('.case-grid')?atlasButton('backToCase','Back to medal case','← Back to medal case','outline'):''));return}
  switch(b.dataset.atlas){
+ case 'local-stamps':{
+  window.webkit?.messageHandlers?.driveTest?.postMessage({section:'in-person',route:''});
+  break;
+ }
  case 'map':case 'book':passportMode=b.dataset.atlas;render();break;
  case 'dismiss-paused':
   dismissedPausedNotice=pausedJourneyEntries().map(([key])=>key).join(',');

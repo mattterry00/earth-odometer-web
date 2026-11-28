@@ -1,0 +1,11 @@
+Freedom Trail coordinates use the Boston Freedom Trail linework from https://services.arcgis.com/1oF9XVrVYcFTsAKj/arcgis/rest/services/Freedom_Trail2/FeatureServer/0. The ordered route includes the Navy Yard spur and finishes at Bunker Hill.
+
+Red Rock Canyon Scenic Drive coordinates are derived from OpenStreetMap contributors via https://bikelasvegas.com/gpx/red-rock-canyon-scenic-drive.gpx. The derived redrockdrive.json route data is available under ODbL 1.0, https://opendatacommons.org/licenses/odbl/1-0/.
+
+Boston Common and North End to Charlestown use consecutive sections of the bundled Freedom Trail line. Boston Marathon Course uses the published Boston Marathon Route GIS line (https://services2.arcgis.com/njxlOVQKvDzk10uN/arcgis/rest/services/Boston_Marathon_Route/FeatureServer).
+
+The Appalachian Trail and its White Mountains section use the National Park Service and Appalachian Trail Conservancy official treadway, ordered south to north (https://services1.arcgis.com/fBc8EJBxQRMcHlei/arcgis/rest/services/ANST_Centerline/FeatureServer). Stony Man combines this treadway with the NPS Stony Man and Summit trails (https://services1.arcgis.com/fBc8EJBxQRMcHlei/arcgis/rest/services/SHEN_TRANS_BACK_TRAIL_ln_view/FeatureServer). Skyline Drive follows the NPS SHEN_TRANS_SkylineDrive_ln service. Artists Drive follows the NPS DEVA_Trans_Road_Status_WebsiteView_ln road geometry.
+
+The Route 66 driving edition and its four sections use the NPS generalized historic corridor to select waypoints and OpenStreetMap driving geometry between them. The corridor includes multiple alignments. This edition follows one westbound itinerary through the catalog cities. Source: https://services1.arcgis.com/fBc8EJBxQRMcHlei/arcgis/rest/services/ROSI_Generalized_Route_66_Corridor/FeatureServer.
+
+All other walking and driving lines are derived from OpenStreetMap contributors using mode-specific routing via routing.openstreetmap.de and router.project-osrm.org. These lines, including the Route 66 driving edition, are available under the Open Database License (https://opendatacommons.org/licenses/odbl/1-0/). The bundled latitude/longitude arrays are the derived data. Locations, mileage and access can differ between a virtual itinerary and the in-person edition.
