@@ -5,3 +5,5 @@ For every user-facing change, update the affected in-app help, FAQ, step-by-step
 Keep iphone-preview/guide.html identical to Preview/guide.html in the app repository. Verify that the website guide opens from Profile & settings → Help on iPhone.
 
 Every journey, including upcoming previews, must have a cover and a visibly different closing illustration. Compare the two scenes side by side for new or changed routes. Use the same pair in the interactive website demo.
+
+Every new playable walking or driving journey requires an ordered, attributed real-world GPS path, matching mode and endpoints, working directions and arrival reminder, and an in-person action below the virtual controls. Verify the route in the iPhone app and website demo. Upcoming concepts need a defined itinerary before they become playable.
